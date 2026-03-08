@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
 import { insertIntoSupabase, isSupabaseConfigured } from "@/lib/supabase";
 
-type WaitlistBody = {
+type ContactBody = {
+  name?: string;
   email?: string;
+  message?: string;
 };
 
 function isValidEmail(email: string) {
@@ -10,40 +12,44 @@ function isValidEmail(email: string) {
 }
 
 export async function POST(request: Request) {
-  let body: WaitlistBody;
+  let body: ContactBody;
 
   try {
-    body = (await request.json()) as WaitlistBody;
+    body = (await request.json()) as ContactBody;
   } catch {
     return NextResponse.json({ error: "Invalid request payload." }, { status: 400 });
   }
 
-  const email = body.email?.trim().toLowerCase();
-  if (!email || !isValidEmail(email)) {
+  const name = body.name?.trim() || "";
+  const email = body.email?.trim().toLowerCase() || "";
+  const message = body.message?.trim() || "";
+
+  if (!name || !email || !message) {
+    return NextResponse.json({ error: "Please complete all fields." }, { status: 400 });
+  }
+  if (!isValidEmail(email)) {
     return NextResponse.json({ error: "Please enter a valid email address." }, { status: 400 });
   }
 
-  const table = process.env.SUPABASE_WAITLIST_TABLE?.trim() || "waitlist_signups";
+  const table = process.env.SUPABASE_CONTACT_TABLE?.trim() || "contact_messages";
 
   if (isSupabaseConfigured()) {
     const result = await insertIntoSupabase(table, {
+      name,
       email,
+      message,
       source: "website",
       created_at: new Date().toISOString()
     });
-
     if (!result.ok) {
       return NextResponse.json(
-        { error: "Unable to save signup right now. Please try again." },
+        { error: "Unable to submit message right now. Please email support@tamelife.app." },
         { status: 500 }
       );
     }
   } else {
-    // Fallback for environments without database configuration.
-    console.log(`[waitlist] ${email}`);
+    console.log(`[contact] ${name} <${email}>: ${message}`);
   }
 
-  return NextResponse.json({
-    message: "Thanks. You're on the waitlist. We'll reach out from support@tamelife.app."
-  });
+  return NextResponse.json({ message: "Thanks. We'll get back to you shortly." });
 }

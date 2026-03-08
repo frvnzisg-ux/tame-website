@@ -9,6 +9,7 @@ type Plan = {
   description: string;
   features: string[];
   cta: string;
+  href: string;
   highlight?: boolean;
 };
 
@@ -67,7 +68,8 @@ const plans: Plan[] = [
     annual: 0,
     description: "For building your baseline system and reducing day-to-day chaos.",
     features: ["Core dashboard", "Up to 5 bills and 5 documents", "Basic life calendar"],
-    cta: "Start Free"
+    cta: "Start Free",
+    href: "/signup?plan=free"
   },
   {
     name: "Pro",
@@ -80,6 +82,7 @@ const plans: Plan[] = [
       "Forgotten subscription detection"
     ],
     cta: "Join Pro",
+    href: "/signup?plan=pro",
     highlight: true
   }
 ];
@@ -421,7 +424,7 @@ export default function Home() {
                   ))}
                 </ul>
                 <a
-                  href="#cta"
+                  href={plan.href}
                   className={`mt-7 inline-block rounded-lg px-5 py-2.5 text-sm font-semibold transition ${
                     plan.highlight
                       ? "bg-[var(--accent)] text-black hover:opacity-90"
@@ -504,13 +507,13 @@ export default function Home() {
             <p className="mt-3 text-xs">(c) {new Date().getFullYear()} Tame. All rights reserved.</p>
           </div>
           <div className="flex items-end gap-5">
-            <a href="#" className="transition hover:text-[var(--text)]">
+            <a href="/terms" className="transition hover:text-[var(--text)]">
               Terms
             </a>
-            <a href="#" className="transition hover:text-[var(--text)]">
+            <a href="/privacy" className="transition hover:text-[var(--text)]">
               Privacy
             </a>
-            <a href="#" className="transition hover:text-[var(--text)]">
+            <a href="/contact" className="transition hover:text-[var(--text)]">
               Contact
             </a>
           </div>
