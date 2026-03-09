@@ -136,6 +136,9 @@ function WaitlistForm({ source }: { source: "hero" | "banner" }) {
 
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
+  const [activeModule, setActiveModule] = useState<"finances" | "accounts" | "debt" | "home">(
+    "finances"
+  );
   const appSignupUrl = process.env.NEXT_PUBLIC_APP_SIGNUP_URL || "/signup";
 
   useEffect(() => {
@@ -346,7 +349,29 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid gap-4 lg:grid-cols-2">
+          <div data-reveal className="reveal mb-4 inline-flex flex-wrap gap-2 rounded-lg border border-white/10 bg-[#101010] p-1">
+            {[
+              ["finances", "Finances"],
+              ["accounts", "Accounts"],
+              ["debt", "Debt Payoff"],
+              ["home", "Home"]
+            ].map(([key, label]) => (
+              <button
+                key={String(key)}
+                type="button"
+                onClick={() => setActiveModule(key as "finances" | "accounts" | "debt" | "home")}
+                className={`rounded-md px-4 py-2 text-sm transition ${
+                  activeModule === key
+                    ? "bg-[var(--amber)] text-[#121212] font-semibold"
+                    : "text-white/70 hover:bg-[#171717] hover:text-white"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+
+          {activeModule === "finances" ? (
             <article data-reveal className="reveal glass-card rounded-2xl p-5">
               <div className="mb-4 flex items-center justify-between border-b border-white/10 pb-3">
                 <p className="text-sm font-semibold">Finances</p>
@@ -383,33 +408,49 @@ export default function Home() {
                 ))}
               </div>
             </article>
+          ) : null}
 
+          {activeModule === "accounts" ? (
             <article data-reveal className="reveal glass-card rounded-2xl p-5">
               <div className="mb-4 flex items-center justify-between border-b border-white/10 pb-3">
                 <p className="text-sm font-semibold">Accounts</p>
                 <span className="text-xs text-[var(--teal)]">6 connected</span>
               </div>
-              <div className="space-y-2 text-sm">
-                {[
-                  ["Chase Checking", "$4,210", "text-[var(--ok)]"],
-                  ["Marcus HYSA", "$11,640", "text-[var(--ok)]"],
-                  ["Fidelity 401k", "$18,200", "text-[var(--ok)]"],
-                  ["Capital One Quicksilver", "-$2,140", "text-[var(--danger)]"]
-                ].map(([name, amount, color]) => (
-                  <div key={String(name)} className="flex items-center justify-between rounded-lg border border-white/10 bg-[#121212] px-3 py-2">
-                    <span className="text-white/78">{name}</span>
-                    <span className={String(color)}>{amount}</span>
+              <div className="grid gap-4 lg:grid-cols-[1.2fr_1fr]">
+                <div className="space-y-2 text-sm">
+                  {[
+                    ["Chase Checking", "$4,210", "text-[var(--ok)]"],
+                    ["Marcus HYSA", "$11,640", "text-[var(--ok)]"],
+                    ["Fidelity 401k", "$18,200", "text-[var(--ok)]"],
+                    ["Capital One Quicksilver", "-$2,140", "text-[var(--danger)]"],
+                    ["Citi Double Cash", "-$2,280", "text-[var(--danger)]"]
+                  ].map(([name, amount, color]) => (
+                    <div key={String(name)} className="flex items-center justify-between rounded-lg border border-white/10 bg-[#121212] px-3 py-2">
+                      <span className="text-white/78">{name}</span>
+                      <span className={String(color)}>{amount}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="rounded-lg border border-white/10 bg-[#121212] p-3">
+                  <p className="mb-2 text-xs uppercase tracking-[0.18em] text-white/50">Recent Transactions</p>
+                  <div className="space-y-2 text-xs text-white/72">
+                    <div className="flex justify-between"><span>Whole Foods</span><span>-$67.42</span></div>
+                    <div className="flex justify-between"><span>Direct Deposit</span><span className="text-[var(--ok)]">+$2,600.00</span></div>
+                    <div className="flex justify-between"><span>Shell Gas Station</span><span>-$52.40</span></div>
+                    <div className="flex justify-between"><span>Eversource Electric</span><span>-$158.40</span></div>
                   </div>
-                ))}
+                </div>
               </div>
             </article>
+          ) : null}
 
+          {activeModule === "debt" ? (
             <article data-reveal className="reveal glass-card rounded-2xl p-5">
               <div className="mb-4 flex items-center justify-between border-b border-white/10 pb-3">
                 <p className="text-sm font-semibold">Debt Payoff</p>
                 <span className="text-xs text-[var(--danger)]">Avalanche strategy</span>
               </div>
-              <div className="space-y-4">
+              <div className="mb-4 space-y-4">
                 {[
                   ["Capital One Quicksilver", "APR 24.99%", "62%", "#f08080"],
                   ["Citi Double Cash", "APR 21.49%", "55%", "#f08080"],
@@ -426,14 +467,26 @@ export default function Home() {
                   </div>
                 ))}
               </div>
+              <div className="grid gap-2 md:grid-cols-2">
+                <div className="rounded-lg border border-[#5a2222] bg-[#211313] p-3 text-xs text-white/75">
+                  <p className="font-semibold text-[#f08080]">Avalanche</p>
+                  <p className="mt-1">Pays highest APR first. Saves more interest over time.</p>
+                </div>
+                <div className="rounded-lg border border-white/10 bg-[#121212] p-3 text-xs text-white/75">
+                  <p className="font-semibold text-[var(--teal)]">Snowball</p>
+                  <p className="mt-1">Pays smallest balance first. Builds momentum quickly.</p>
+                </div>
+              </div>
             </article>
+          ) : null}
 
+          {activeModule === "home" ? (
             <article data-reveal className="reveal glass-card rounded-2xl p-5">
               <div className="mb-4 flex items-center justify-between border-b border-white/10 pb-3">
                 <p className="text-sm font-semibold">Home</p>
                 <span className="text-xs text-[var(--amber)]">Property overview</span>
               </div>
-              <div className="mb-3 grid grid-cols-2 gap-2">
+              <div className="mb-3 grid gap-2 sm:grid-cols-4">
                 <div className="rounded-lg border border-white/10 bg-[#121212] p-2">
                   <p className="text-[10px] tracking-[0.16em] text-white/45">HOME VALUE</p>
                   <p className="text-2xl text-[var(--amber)]">$485,000</p>
@@ -442,17 +495,28 @@ export default function Home() {
                   <p className="text-[10px] tracking-[0.16em] text-white/45">EQUITY</p>
                   <p className="text-2xl text-[var(--teal)]">$186,500</p>
                 </div>
+                <div className="rounded-lg border border-white/10 bg-[#121212] p-2">
+                  <p className="text-[10px] tracking-[0.16em] text-white/45">MONTHLY COST</p>
+                  <p className="text-2xl text-[var(--amber)]">$2,919</p>
+                </div>
+                <div className="rounded-lg border border-white/10 bg-[#121212] p-2">
+                  <p className="text-[10px] tracking-[0.16em] text-white/45">INSURANCE</p>
+                  <p className="text-2xl text-white">$142</p>
+                </div>
               </div>
               <div className="space-y-2 text-xs text-white/72">
                 <div className="rounded-lg border border-white/10 bg-[#121212] px-3 py-2">
-                  Monthly housing cost: <span className="text-[var(--amber)]">$2,919</span>
+                  Equity progress: <span className="text-[var(--teal)]">38%</span>
                 </div>
                 <div className="rounded-lg border border-white/10 bg-[#121212] px-3 py-2">
                   Insurance renewal: <span className="text-white">May 2026</span>
                 </div>
+                <div className="rounded-lg border border-white/10 bg-[#121212] px-3 py-2">
+                  Next maintenance task: <span className="text-[var(--danger)]">Dryer vent cleaning</span>
+                </div>
               </div>
             </article>
-          </div>
+          ) : null}
         </section>
 
         <section id="features" className="mx-auto w-full max-w-7xl px-6 py-24 md:px-10">
