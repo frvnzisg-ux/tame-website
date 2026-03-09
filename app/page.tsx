@@ -10,32 +10,32 @@ type WaitlistState = {
 
 const features = [
   {
-    icon: "O1",
+    icon: "FIN",
     title: "Finances Dashboard",
     description: "Net worth, monthly surplus, savings rate, and upcoming obligations in one view."
   },
   {
-    icon: "O2",
+    icon: "ACC",
     title: "Connected Accounts",
     description: "All bank, credit, and investment accounts with balances and sync status."
   },
   {
-    icon: "O3",
+    icon: "DBT",
     title: "Debt Payoff",
     description: "Track APR, payment impact, and payoff date with avalanche or snowball strategy."
   },
   {
-    icon: "O4",
+    icon: "HME",
     title: "Home and Vehicle",
     description: "Monitor equity, insurance, maintenance, and recurring ownership costs."
   },
   {
-    icon: "O5",
+    icon: "DOC",
     title: "Documents and Benefits",
     description: "Stay ahead of renewals, expiration dates, and use-it-or-lose-it balances."
   },
   {
-    icon: "O6",
+    icon: "CAL",
     title: "Life Calendar",
     description: "Payments, renewals, and action windows aligned in one operational timeline."
   }
@@ -44,19 +44,19 @@ const features = [
 const testimonials = [
   {
     quote:
-      "Tame gave me the first week in years where my life felt coordinated instead of reactive.",
+      "For the first time, my finances and life admin live in one place. I stopped missing things.",
     name: "Maya R.",
     title: "Founder, Design Studio"
   },
   {
     quote:
-      "I finally have one place for priorities, routines, and follow-through. It feels incredibly clean.",
+      "The module layout feels like a control center: accounts, debt, renewals, and next actions.",
     name: "Elliot K.",
     title: "Product Lead"
   },
   {
     quote:
-      "It does not guilt you into productivity. It helps you choose what matters and execute calmly.",
+      "Tame helps me run my household like an operating system, not a pile of disconnected apps.",
     name: "Sana P.",
     title: "Operations Manager"
   }
@@ -136,9 +136,9 @@ function WaitlistForm({ source }: { source: "hero" | "banner" }) {
 
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
-  const [activeModule, setActiveModule] = useState<"finances" | "accounts" | "debt" | "home">(
-    "finances"
-  );
+  const [activeModule, setActiveModule] = useState<
+    "finances" | "accounts" | "debt" | "home" | "documents" | "calendar"
+  >("finances");
   const appSignupUrl = process.env.NEXT_PUBLIC_APP_SIGNUP_URL || "/signup";
 
   useEffect(() => {
@@ -203,15 +203,15 @@ export default function Home() {
           <div data-reveal className="reveal">
             <p className="mb-5 text-xs uppercase tracking-[0.2em] text-white/50">Life Operating System</p>
             <h1 className="display-font text-5xl leading-[0.95] tracking-tight md:text-8xl">
-              Get everything out of your head.
+              Money plus life admin.
               <br />
-              See what matters.
+              One clear system.
               <br />
-              Move with calm.
+              Built to keep up.
             </h1>
             <p className="mt-7 max-w-xl text-base leading-7 text-white/70">
-              Tame brings your tasks, goals, habits, and life admin into one system that feels clear,
-              practical, and stable.
+              Connect your banks, track expenses, plan debt payoff, and stay ahead of documents,
+              benefits, renewals, and deadlines with one operational view.
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
@@ -277,14 +277,20 @@ export default function Home() {
                     <div className="rounded-lg border border-white/10 bg-[#111] p-3">
                       <p className="mb-2 text-xs uppercase tracking-[0.18em] text-white/50">Income Waterfall</p>
                       <div className="space-y-2">
-                        {[72, 44, 29, 22, 16].map((w, i) => (
-                          <div key={String(i)} className="flex items-center gap-2">
-                            <span className="w-16 text-xs text-white/55">Item {i + 1}</span>
+                        {[
+                          ["Rent", 72],
+                          ["Car Loan", 44],
+                          ["Insurance", 29],
+                          ["Utilities", 22],
+                          ["Subscriptions", 16]
+                        ].map(([label, width], i) => (
+                          <div key={String(label)} className="flex items-center gap-2">
+                            <span className="w-20 text-xs text-white/55">{label}</span>
                             <div className="h-1.5 flex-1 rounded-full bg-[#2a2a2a]">
                               <div
                                 className="h-full rounded-full"
                                 style={{
-                                  width: `${w}%`,
+                                  width: `${width}%`,
                                   background: i < 2 ? "#f08080" : i < 4 ? "#80c8f0" : "#c8f080"
                                 }}
                               />
@@ -318,8 +324,8 @@ export default function Home() {
         <section data-reveal className="reveal border-y border-white/10 bg-white/[0.02]">
           <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-6 py-5 md:flex-row md:items-center md:justify-between md:px-10">
             <p className="text-sm text-white/80">
-              Trusted by <span className="font-semibold text-white">2,400+ early users</span> building calmer
-              systems for work and life
+              Trusted by <span className="font-semibold text-white">2,400+ early users</span> organizing
+              finances, deadlines, and life admin in one operating system
             </p>
             <div className="flex items-center gap-3">
               <div className="flex -space-x-2">
@@ -344,8 +350,8 @@ export default function Home() {
               The exact modules users rely on inside Tame.
             </h2>
             <p className="mt-4 max-w-3xl text-sm leading-7 text-white/70">
-              The homepage now mirrors real in-app surfaces: finances, accounts, debt payoff, and
-              home operations with the same visual language used in product.
+              Built from the same module architecture shown in-app: Finances, Accounts, Debt
+              Payoff, Home, Documents and Benefits, and Life Calendar.
             </p>
           </div>
 
@@ -354,12 +360,18 @@ export default function Home() {
               ["finances", "Finances"],
               ["accounts", "Accounts"],
               ["debt", "Debt Payoff"],
-              ["home", "Home"]
+              ["home", "Home"],
+              ["documents", "Documents"],
+              ["calendar", "Life Calendar"]
             ].map(([key, label]) => (
               <button
                 key={String(key)}
                 type="button"
-                onClick={() => setActiveModule(key as "finances" | "accounts" | "debt" | "home")}
+                onClick={() =>
+                  setActiveModule(
+                    key as "finances" | "accounts" | "debt" | "home" | "documents" | "calendar"
+                  )
+                }
                 className={`rounded-md px-4 py-2 text-sm transition ${
                   activeModule === key
                     ? "bg-[var(--amber)] text-[#121212] font-semibold"
@@ -392,14 +404,20 @@ export default function Home() {
                 </div>
               </div>
               <div className="space-y-2">
-                {[82, 46, 34, 21, 11].map((w, i) => (
-                  <div key={String(i)} className="flex items-center gap-2 text-xs">
-                    <span className="w-16 text-white/55">Line {i + 1}</span>
+                {[
+                  ["Rent", 82],
+                  ["Car Loan", 46],
+                  ["Food and Dining", 34],
+                  ["Transport", 21],
+                  ["Subscriptions", 11]
+                ].map(([label, width], i) => (
+                  <div key={String(label)} className="flex items-center gap-2 text-xs">
+                    <span className="w-24 text-white/55">{label}</span>
                     <div className="h-1.5 flex-1 rounded-full bg-[#2a2a2a]">
                       <div
                         className="h-full rounded-full"
                         style={{
-                          width: `${w}%`,
+                          width: `${width}%`,
                           background: i < 2 ? "#f08080" : i < 4 ? "#80c8f0" : "#c8f080"
                         }}
                       />
@@ -517,6 +535,96 @@ export default function Home() {
               </div>
             </article>
           ) : null}
+
+          {activeModule === "documents" ? (
+            <article className="glass-card rounded-2xl p-5">
+              <div className="mb-4 flex items-center justify-between border-b border-white/10 pb-3">
+                <p className="text-sm font-semibold">Documents and Benefits</p>
+                <span className="text-xs text-[var(--danger)]">3 action needed</span>
+              </div>
+              <div className="mb-3 grid gap-2 sm:grid-cols-4">
+                <div className="rounded-lg border border-white/10 bg-[#121212] p-2">
+                  <p className="text-[10px] tracking-[0.16em] text-white/45">OPEN ITEMS</p>
+                  <p className="text-2xl text-[var(--danger)]">3</p>
+                </div>
+                <div className="rounded-lg border border-white/10 bg-[#121212] p-2">
+                  <p className="text-[10px] tracking-[0.16em] text-white/45">EXPIRING 30D</p>
+                  <p className="text-2xl text-[var(--amber)]">4</p>
+                </div>
+                <div className="rounded-lg border border-white/10 bg-[#121212] p-2">
+                  <p className="text-[10px] tracking-[0.16em] text-white/45">FSA BALANCE</p>
+                  <p className="text-2xl text-[var(--teal)]">$340</p>
+                </div>
+                <div className="rounded-lg border border-white/10 bg-[#121212] p-2">
+                  <p className="text-[10px] tracking-[0.16em] text-white/45">BENEFIT DEADLINE</p>
+                  <p className="text-2xl text-white">18d</p>
+                </div>
+              </div>
+              <div className="space-y-2 text-xs text-white/72">
+                {[
+                  ["Driver's License Renewal", "Document", "Due in 18 days", "text-[var(--amber)]"],
+                  ["FSA Balance Deadline", "Benefit", "$340 use-it-or-lose-it", "text-[var(--teal)]"],
+                  ["Dental Plan Enrollment", "Benefit", "Window closes in 11 days", "text-[var(--danger)]"],
+                  ["Passport Expiration", "Document", "Expires in 5 months", "text-[var(--ok)]"]
+                ].map(([title, type, value, colorClass]) => (
+                  <div
+                    key={String(title)}
+                    className="flex items-center justify-between rounded-lg border border-white/10 bg-[#121212] px-3 py-2"
+                  >
+                    <div>
+                      <p className="text-sm text-white/85">{title}</p>
+                      <p className="text-[11px] uppercase tracking-[0.14em] text-white/45">{type}</p>
+                    </div>
+                    <span className={String(colorClass)}>{value}</span>
+                  </div>
+                ))}
+              </div>
+            </article>
+          ) : null}
+
+          {activeModule === "calendar" ? (
+            <article className="glass-card rounded-2xl p-5">
+              <div className="mb-4 flex items-center justify-between border-b border-white/10 pb-3">
+                <p className="text-sm font-semibold">Life Calendar</p>
+                <span className="text-xs text-[var(--teal)]">Next 30 days</span>
+              </div>
+              <div className="mb-3 grid gap-2 sm:grid-cols-3">
+                <div className="rounded-lg border border-white/10 bg-[#121212] p-2">
+                  <p className="text-[10px] tracking-[0.16em] text-white/45">BILLS DUE</p>
+                  <p className="text-2xl text-[var(--danger)]">6</p>
+                </div>
+                <div className="rounded-lg border border-white/10 bg-[#121212] p-2">
+                  <p className="text-[10px] tracking-[0.16em] text-white/45">RENEWALS</p>
+                  <p className="text-2xl text-[var(--amber)]">3</p>
+                </div>
+                <div className="rounded-lg border border-white/10 bg-[#121212] p-2">
+                  <p className="text-[10px] tracking-[0.16em] text-white/45">AUTO-PAY</p>
+                  <p className="text-2xl text-[var(--ok)]">4</p>
+                </div>
+              </div>
+              <div className="space-y-2">
+                {[
+                  ["Mar 12", "Comcast Xfinity", "$89.99", "Auto", "text-[var(--ok)]"],
+                  ["Mar 15", "Progressive Insurance", "$180.00", "Auto", "text-[var(--ok)]"],
+                  ["Mar 22", "Driver's License Renewal", "-", "18 days", "text-[var(--amber)]"],
+                  ["Mar 25", "FSA Balance Deadline", "$340", "Benefit", "text-[var(--teal)]"],
+                  ["Apr 1", "Rent - 123 Main St", "$1,450", "28 days", "text-[var(--danger)]"]
+                ].map(([date, label, amount, tag, colorClass]) => (
+                  <div
+                    key={String(label)}
+                    className="grid grid-cols-[56px_1fr_auto_auto] items-center gap-3 rounded-lg border border-white/10 bg-[#121212] px-3 py-2 text-xs"
+                  >
+                    <span className="text-white/45">{date}</span>
+                    <span className="text-white/78">{label}</span>
+                    <span className={String(colorClass)}>{amount}</span>
+                    <span className="rounded-full border border-white/12 px-2 py-0.5 text-[10px] text-white/70">
+                      {tag}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </article>
+          ) : null}
         </section>
 
         <section id="features" className="mx-auto w-full max-w-7xl px-6 py-24 md:px-10">
@@ -554,18 +662,18 @@ export default function Home() {
             {[
               {
                 n: "01",
-                title: "Capture everything",
-                text: "Brain dump tasks, notes, and ideas instantly before they fragment your attention."
+                title: "Connect and capture",
+                text: "Link your financial accounts and add life admin items like documents, renewals, and deadlines."
               },
               {
                 n: "02",
-                title: "Tame organizes it",
-                text: "Smart rules and intelligent structure sort your life into meaningful priorities."
+                title: "Tame structures it",
+                text: "Transactions, obligations, and tasks are organized into modules with clear status and next actions."
               },
               {
                 n: "03",
-                title: "Live with clarity",
-                text: "Daily focus, habits, and goals stay aligned so progress feels calm and sustainable."
+                title: "Run life from one dashboard",
+                text: "Track net worth, upcoming bills, payoff strategy, and critical dates without context switching."
               }
             ].map((step, idx) => (
               <div key={step.n} data-reveal className="reveal relative">
@@ -634,6 +742,10 @@ export default function Home() {
             <a href="#how" className="hover:text-white">How It Works</a>
             <a href="#pricing" className="hover:text-white">Pricing</a>
             <a href="/blog" className="hover:text-white">Blog</a>
+            <a href="/contact" className="hover:text-white">Contact</a>
+            <a href="/security" className="hover:text-white">Security</a>
+            <a href="/privacy" className="hover:text-white">Privacy</a>
+            <a href="/terms" className="hover:text-white">Terms</a>
             <a href="https://x.com" aria-label="X" className="hover:text-white">X</a>
             <a href="https://instagram.com" aria-label="Instagram" className="hover:text-white">IG</a>
             <a href="https://linkedin.com" aria-label="LinkedIn" className="hover:text-white">IN</a>

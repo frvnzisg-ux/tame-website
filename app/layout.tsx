@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
-import { DM_Sans, Fraunces } from "next/font/google";
+import { Geist, Instrument_Serif } from "next/font/google";
 import AnalyticsProvider from "./analytics-provider";
 import "./globals.css";
 
-const sans = DM_Sans({
+const sans = Geist({
   subsets: ["latin"],
   variable: "--font-sans"
 });
 
-const serif = Fraunces({
-  style: ["italic", "normal"],
+const serif = Instrument_Serif({
+  weight: "400",
   subsets: ["latin"],
   variable: "--font-serif"
 });

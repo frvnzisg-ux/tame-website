@@ -2,7 +2,7 @@ export default function SecurityPage() {
   return (
     <main className="mx-auto min-h-screen w-full max-w-3xl px-6 py-20 text-[var(--text)] md:px-10">
       <a href="/" className="text-sm text-[var(--muted)] hover:text-[var(--text)]">
-        ← Back to site
+        {"<- Back to site"}
       </a>
       <h1 className="display-font mt-6 text-5xl leading-none tracking-tight md:text-6xl">
         Security
@@ -36,3 +36,4 @@ export default function SecurityPage() {
     </main>
   );
 }
+

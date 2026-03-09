@@ -1,20 +1,20 @@
 const posts = [
   {
-    title: "Why life admin feels heavier than work",
+    title: "How to run your finances like an operating system",
     excerpt:
-      "A practical breakdown of invisible cognitive load and how to design systems that reduce it.",
+      "A practical framework for turning accounts, expenses, debt, and renewals into one clear weekly workflow.",
     date: "March 2026"
   },
   {
-    title: "From task list to operating system",
+    title: "The six core modules behind Tame",
     excerpt:
-      "What changes when you stop managing isolated tasks and start managing your full life context.",
+      "Finances, Accounts, Debt Payoff, Home, Documents and Benefits, and Life Calendar explained end-to-end.",
     date: "March 2026"
   },
   {
-    title: "Calm productivity is a design problem",
+    title: "What to automate first in modern life admin",
     excerpt:
-      "How better defaults, clearer priorities, and tighter feedback loops create sustainable focus.",
+      "A tactical guide to auto-pay, renewal tracking, document deadlines, and benefit windows that most people miss.",
     date: "March 2026"
   }
 ];
@@ -27,11 +27,11 @@ export default function BlogPage() {
       </a>
       <p className="mt-8 text-xs uppercase tracking-[0.2em] text-white/55">Blog</p>
       <h1 className="display-font mt-3 text-5xl tracking-tight md:text-6xl">
-        Ideas on clarity, systems, and modern life.
+        Playbooks for calmer finances and life admin.
       </h1>
       <p className="mt-4 max-w-2xl text-sm leading-7 text-white/70">
-        Writing from the Tame team on designing calmer workflows for personal and professional
-        life.
+        Notes from the Tame team on building practical systems for money, obligations, and
+        day-to-day operations.
       </p>
 
       <div className="mt-12 grid gap-4 md:grid-cols-3">
