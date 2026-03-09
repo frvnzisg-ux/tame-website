@@ -267,7 +267,66 @@ export default function Home() {
                   ))}
                 </div>
 
-                <div className="grid gap-3 p-3 lg:grid-cols-[1fr_230px]">
+                <div className="grid gap-3 p-3 lg:grid-cols-[185px_1fr_230px]">
+                  <aside className="hidden rounded-lg border border-white/10 bg-[#111112] p-2.5 lg:block">
+                    <p className="mb-2 px-1 text-[10px] tracking-[0.18em] text-white/38">OVERVIEW</p>
+                    <div className="space-y-1 text-xs">
+                      <div className="flex items-center justify-between rounded-md border border-white/10 bg-[#171718] px-2 py-1.5 text-white">
+                        <span>Dashboard</span>
+                      </div>
+                    </div>
+
+                    <p className="mb-2 mt-4 px-1 text-[10px] tracking-[0.18em] text-white/38">MONEY</p>
+                    <div className="space-y-1 text-xs">
+                      {[
+                        ["Finances", "2"],
+                        ["Accounts", ""],
+                        ["Expenses", "1"],
+                        ["Debt Payoff", ""],
+                        ["Goals and Savings", ""],
+                        ["Budget", ""]
+                      ].map(([name, badge]) => (
+                        <div key={String(name)} className="flex items-center justify-between px-2 py-1 text-white/68">
+                          <span>{name}</span>
+                          {badge ? (
+                            <span className="rounded-full bg-[#351717] px-1.5 py-0.5 text-[10px] text-[#ff6666]">
+                              {badge}
+                            </span>
+                          ) : null}
+                        </div>
+                      ))}
+                    </div>
+
+                    <p className="mb-2 mt-4 px-1 text-[10px] tracking-[0.18em] text-white/38">LIFE</p>
+                    <div className="space-y-1 text-xs">
+                      {[
+                        ["Documents", "3"],
+                        ["Health and Benefits", "$340"],
+                        ["Home", "1"],
+                        ["Vehicle", "1"],
+                        ["Life Calendar", ""]
+                      ].map(([name, badge]) => (
+                        <div key={String(name)} className="flex items-center justify-between px-2 py-1 text-white/68">
+                          <span>{name}</span>
+                          {badge ? (
+                            <span className="rounded-full bg-[#351717] px-1.5 py-0.5 text-[10px] text-[#ff6666]">
+                              {badge}
+                            </span>
+                          ) : null}
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="mt-4 rounded-lg border border-white/10 bg-[#151516] p-2">
+                      <p className="text-[10px] tracking-[0.16em] text-white/40">PLAN</p>
+                      <p className="mt-1 text-lg text-[var(--amber)]">Free</p>
+                      <p className="text-[11px] text-white/42">5 of 8 features active</p>
+                      <button className="mt-2 w-full rounded-md bg-[var(--amber)] px-2 py-1.5 text-[11px] font-semibold text-[#101010]">
+                        Upgrade to Pro
+                      </button>
+                    </div>
+                  </aside>
+
                   <div className="space-y-3">
                     <div className="rounded-lg border border-white/10 bg-[#111112]">
                       <div className="flex items-center justify-between border-b border-white/10 px-3 py-2">
@@ -652,15 +711,43 @@ export default function Home() {
                   <p className="text-2xl text-white">$142</p>
                 </div>
               </div>
-              <div className="space-y-2 text-xs text-white/72">
-                <div className="rounded-lg border border-white/10 bg-[#121212] px-3 py-2">
-                  Equity progress: <span className="text-[var(--teal)]">38%</span>
+              <div className="space-y-3">
+                <div className="rounded-lg border border-white/10 bg-[#121212]">
+                  <div className="border-b border-white/10 px-3 py-2 text-xs font-semibold">Property Overview</div>
+                  <div className="grid gap-3 px-3 py-3 text-xs text-white/72 sm:grid-cols-2">
+                    <div>
+                      <p className="text-[10px] tracking-[0.14em] text-white/45">ADDRESS</p>
+                      <p className="text-sm text-white/85">47 Birchwood Ln, Newton, MA</p>
+                      <p className="mt-2 text-[10px] tracking-[0.14em] text-white/45">PURCHASED</p>
+                      <p className="text-sm text-white/85">2018 · Purchase $380,000</p>
+                    </div>
+                    <div>
+                      <p className="text-[10px] tracking-[0.14em] text-white/45">MORTGAGE</p>
+                      <p className="text-sm text-white/85">$298,500 remaining</p>
+                      <p className="mt-2 text-[10px] tracking-[0.14em] text-white/45">EQUITY</p>
+                      <p className="text-sm text-[var(--teal)]">$186,500 (38%)</p>
+                    </div>
+                  </div>
+                  <div className="border-t border-white/10 px-3 py-2">
+                    <div className="h-2 rounded-full bg-[#2a2a2a]">
+                      <div className="h-full w-[38%] rounded-full bg-gradient-to-r from-[var(--amber)] to-[var(--teal)]" />
+                    </div>
+                  </div>
                 </div>
-                <div className="rounded-lg border border-white/10 bg-[#121212] px-3 py-2">
-                  Insurance renewal: <span className="text-white">May 2026</span>
-                </div>
-                <div className="rounded-lg border border-white/10 bg-[#121212] px-3 py-2">
-                  Next maintenance task: <span className="text-[var(--danger)]">Dryer vent cleaning</span>
+
+                <div className="rounded-lg border border-white/10 bg-[#121212] p-3 text-xs">
+                  <p className="mb-2 text-xs font-semibold text-white">Monthly Housing Cost</p>
+                  <p className="text-4xl leading-none text-[var(--amber)]">$2,919</p>
+                  <p className="mt-1 text-white/45">Mortgage, tax, insurance, utilities</p>
+                  <div className="mt-3 h-2 rounded-full bg-[#2a2a2a]">
+                    <div className="h-full w-[61%] rounded-full bg-[#c8f080]" />
+                  </div>
+                  <div className="mt-3 grid grid-cols-2 gap-y-1 text-white/65">
+                    <span>Mortgage (P&I)</span><span className="text-right">$1,820</span>
+                    <span>Property Tax</span><span className="text-right">$580</span>
+                    <span>Insurance</span><span className="text-right">$142</span>
+                    <span>Utilities</span><span className="text-right">$377</span>
+                  </div>
                 </div>
               </div>
             </article>
