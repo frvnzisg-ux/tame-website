@@ -14,10 +14,13 @@ const serif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://tamelife.app"),
+  metadataBase: new URL("https://www.tamelife.app"),
   title: "Tame | Life Operating System",
   description:
     "Tame is a Life Operating System for money and modern life admin: expenses, subscriptions, documents, benefits, and deadlines in one calm dashboard.",
+  alternates: {
+    canonical: "/"
+  },
   keywords: [
     "Tame",
     "life operating system",
@@ -30,7 +33,7 @@ export const metadata: Metadata = {
     title: "Tame | Life Operating System",
     description:
       "Money plus life admin in one clear system. Track expenses, subscriptions, documents, benefits, and deadlines.",
-    url: "https://tamelife.app",
+    url: "https://www.tamelife.app",
     siteName: "Tame",
     type: "website"
   },

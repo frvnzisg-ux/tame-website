@@ -513,6 +513,9 @@ export default function Home() {
             <a href="/privacy" className="transition hover:text-[var(--text)]">
               Privacy
             </a>
+            <a href="/security" className="transition hover:text-[var(--text)]">
+              Security
+            </a>
             <a href="/contact" className="transition hover:text-[var(--text)]">
               Contact
             </a>
