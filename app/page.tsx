@@ -1,17 +1,6 @@
 "use client";
 
-import { FormEvent, useMemo, useState } from "react";
-import { trackEvent } from "@/lib/analytics";
-
-type Plan = {
-  name: string;
-  monthly: number;
-  annual: number;
-  description: string;
-  features: string[];
-  cta: string;
-  highlight?: boolean;
-};
+import { FormEvent, useEffect, useState } from "react";
 
 type WaitlistState = {
   loading: boolean;
@@ -19,107 +8,63 @@ type WaitlistState = {
   error: string;
 };
 
-const steps = [
-  {
-    title: "Connect your accounts",
-    text: "Securely link bank and card accounts so Tame can build a live picture of your financial life."
-  },
-  {
-    title: "See what matters now",
-    text: "Get one prioritized feed for bills, renewals, documents, and deadlines that need attention."
-  },
-  {
-    title: "Take action in minutes",
-    text: "Handle payments, subscriptions, and recurring admin tasks from one calm operating system."
-  }
-];
-
 const features = [
   {
-    title: "Unified money view",
-    text: "Income, spending, subscriptions, and recurring charges in one timeline."
+    icon: "🗓",
+    title: "Unified Dashboard",
+    description: "All your tasks, habits, goals, and projects in one living command center."
   },
   {
-    title: "Life admin tracker",
-    text: "Track paperwork, renewals, and obligations that usually fall through the cracks."
+    icon: "🎯",
+    title: "Daily Focus Mode",
+    description: "Zero in on what matters today with clear priorities and protected focus blocks."
   },
   {
-    title: "Smart reminders",
-    text: "Timely, practical alerts without noise, guilt, or notification overload."
+    icon: "🔁",
+    title: "Habit Engine",
+    description: "Build routines that actually stick through consistency cues and trend tracking."
   },
   {
-    title: "What-if planning",
-    text: "Model decisions before money leaves your account so you can plan with confidence."
+    icon: "📊",
+    title: "Life Analytics",
+    description: "See patterns, spot gaps, and improve how your time and energy are invested."
   },
   {
-    title: "Calendar of obligations",
-    text: "A single calendar for bills, benefits, home tasks, and non-financial deadlines."
+    icon: "🧠",
+    title: "Capture Inbox",
+    description: "Drop thoughts, tasks, and ideas instantly, then organize them with smart rules."
   },
   {
-    title: "Actionable workflows",
-    text: "From due notices to completed actions, Tame helps you follow through faster."
+    icon: "🔗",
+    title: "Integrations",
+    description: "Connect your calendar, notes, and key tools so your workflow stays in sync."
   }
 ];
 
-const plans: Plan[] = [
+const testimonials = [
   {
-    name: "Free",
-    monthly: 0,
-    annual: 0,
-    description: "For building your baseline system and reducing day-to-day chaos.",
-    features: ["Core dashboard", "Up to 5 bills and 5 documents", "Basic life calendar"],
-    cta: "Start Free"
+    quote:
+      "Tame gave me the first week in years where my life felt coordinated instead of constantly reactive.",
+    name: "Maya R.",
+    title: "Founder, Design Studio"
   },
   {
-    name: "Pro",
-    monthly: 9,
-    annual: 79,
-    description: "For full coverage and automation across money and life admin.",
-    features: [
-      "Unlimited tracking across all modules",
-      "Automation features and guided workflows",
-      "Forgotten subscription detection"
-    ],
-    cta: "Join Pro",
-    highlight: true
+    quote:
+      "I finally have one place for work priorities, personal goals, and daily routines. It feels ridiculously clean.",
+    name: "Elliot K.",
+    title: "Product Lead"
+  },
+  {
+    quote:
+      "It doesn’t guilt you into productivity. It helps you choose what matters and execute calmly.",
+    name: "Sana P.",
+    title: "Operations Manager"
   }
 ];
 
-const faqs = [
-  {
-    question: "Is Tame a budgeting app?",
-    answer:
-      "Tame includes budgeting signals, but it is broader: money, subscriptions, documents, benefits, and life deadlines in one system."
-  },
-  {
-    question: "How secure is account connection?",
-    answer:
-      "Tame is designed with a security-first architecture and uses established banking connection providers. Final compliance details can be published on your security page."
-  },
-  {
-    question: "Can I cancel the Pro plan anytime?",
-    answer:
-      "Yes. You can cancel anytime and keep access through the end of your active billing period."
-  },
-  {
-    question: "Who is Tame built for?",
-    answer:
-      "People who feel like modern life admin became a second job and want one clear system to stay on top of it."
-  }
-];
-
-function formatPrice(monthly: boolean, plan: Plan) {
-  if (plan.name === "Free") return "$0";
-  return monthly ? `$${plan.monthly}/mo` : `$${plan.annual}/yr`;
-}
-
-function WaitlistForm({ compact = false }: { compact?: boolean }) {
+function WaitlistForm({ source }: { source: "hero" | "banner" }) {
   const [email, setEmail] = useState("");
-  const [state, setState] = useState<WaitlistState>({
-    loading: false,
-    message: "",
-    error: ""
-  });
+  const [state, setState] = useState<WaitlistState>({ loading: false, message: "", error: "" });
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -129,28 +74,26 @@ function WaitlistForm({ compact = false }: { compact?: boolean }) {
       const response = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email })
+        body: JSON.stringify({ email, source: `homepage_${source}` })
       });
-
       const result = (await response.json()) as { message?: string; error?: string };
+
       if (!response.ok) {
         setState({
           loading: false,
           message: "",
-          error: result.error ?? "Something went wrong. Please try again."
+          error: result.error ?? "Unable to submit right now. Please try again."
         });
         return;
       }
 
       setEmail("");
-      trackEvent({ action: "waitlist_submit_success", category: "conversion", label: "homepage" });
       setState({
         loading: false,
-        message: result.message ?? "You're on the list.",
+        message: result.message ?? "You're on the waitlist.",
         error: ""
       });
     } catch {
-      trackEvent({ action: "waitlist_submit_error", category: "conversion", label: "homepage" });
       setState({
         loading: false,
         message: "",
@@ -160,384 +103,376 @@ function WaitlistForm({ compact = false }: { compact?: boolean }) {
   };
 
   return (
-    <form onSubmit={onSubmit} className={compact ? "w-full max-w-lg" : "w-full max-w-xl"}>
+    <form onSubmit={onSubmit} className="w-full max-w-xl">
       <div className="flex flex-col gap-2 sm:flex-row">
-        <label className="sr-only" htmlFor={compact ? "email-compact" : "email-main"}>
-          Email address
+        <label className="sr-only" htmlFor={`waitlist-${source}`}>
+          Email
         </label>
         <input
-          id={compact ? "email-compact" : "email-main"}
+          id={`waitlist-${source}`}
           type="email"
+          required
           value={email}
           onChange={(event) => setEmail(event.target.value)}
-          required
           placeholder="name@company.com"
-          className="w-full rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-4 py-3 text-sm text-[var(--text)] placeholder:text-[#7f7f79] focus:border-[var(--accent)] focus:outline-none"
+          className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-white/45 focus:border-[var(--teal)] focus:outline-none"
         />
         <button
           type="submit"
           disabled={state.loading}
-          className="rounded-lg bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-black transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-65"
+          className="rounded-xl bg-[var(--amber)] px-5 py-3 text-sm font-semibold text-[#1a1a1a] transition hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-60"
         >
-          {state.loading ? "Submitting..." : "Join Waitlist"}
+          {state.loading ? "Joining..." : "Join the Waitlist"}
         </button>
       </div>
-      <p className="mt-2 text-xs text-[#8e8e88]">
-        No spam. Product updates only. You can unsubscribe anytime.
-      </p>
-      {state.message ? <p className="mt-2 text-sm text-[#55c896]">{state.message}</p> : null}
-      {state.error ? <p className="mt-2 text-sm text-[#f05555]">{state.error}</p> : null}
+      <p className="mt-2 text-xs text-white/55">No spam. Product updates only.</p>
+      {state.message ? <p className="mt-2 text-sm text-[#6de2c4]">{state.message}</p> : null}
+      {state.error ? <p className="mt-2 text-sm text-[#ff7d7d]">{state.error}</p> : null}
     </form>
   );
 }
 
 export default function Home() {
-  const [isMonthly, setIsMonthly] = useState(true);
-  const [openFaq, setOpenFaq] = useState(0);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const appSignupUrl = process.env.NEXT_PUBLIC_APP_SIGNUP_URL || "/signup";
 
-  const yearlySavings = useMemo(() => plans[1].monthly * 12 - plans[1].annual, []);
-  const appSignupUrl = process.env.NEXT_PUBLIC_APP_SIGNUP_URL || "https://app.tamelife.app/signup";
-  const proCheckoutUrl =
-    process.env.NEXT_PUBLIC_STRIPE_PRO_CHECKOUT_URL || "https://app.tamelife.app/upgrade";
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 12);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const items = document.querySelectorAll("[data-reveal]");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("reveal-in");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    items.forEach((item) => observer.observe(item));
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(70%_70%_at_50%_0%,rgba(200,240,128,0.08),transparent_60%),var(--background)] text-[var(--text)]">
-      <header className="sticky top-0 z-30 border-b border-[var(--border)] bg-[#0b0b0b]/95 backdrop-blur">
-        <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4 md:px-10">
-          <a href="#" className="block">
-            <p className="display-font text-4xl leading-none tracking-tight">
-              tame<span className="text-[var(--accent)]">.</span>
-            </p>
-            <p className="mt-1 text-[10px] uppercase tracking-[0.25em] text-[var(--muted)]">
-              Life Operating System
-            </p>
-          </a>
+    <div className="relative overflow-x-clip bg-[var(--bg)] text-[var(--text)]">
+      <div className="pointer-events-none absolute inset-0">
+        <div className="orb orb-a" />
+        <div className="orb orb-b" />
+        <div className="orb orb-c" />
+      </div>
 
-          <nav className="hidden items-center gap-7 text-sm text-[#a8a8a2] md:flex">
-            <a href="#how-it-works" className="transition hover:text-[var(--text)]">
-              How It Works
-            </a>
-            <a href="#features" className="transition hover:text-[var(--text)]">
+      <header
+        className={`sticky top-0 z-40 border-b transition ${
+          scrolled
+            ? "border-white/15 bg-[#0a0c12cc] backdrop-blur-xl"
+            : "border-transparent bg-transparent"
+        }`}
+      >
+        <nav className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4 md:px-10">
+          <a href="#" className="text-4xl leading-none tracking-tight text-[var(--teal)] logo-word">
+            Tame
+          </a>
+          <div className="hidden items-center gap-8 text-sm text-white/75 md:flex">
+            <a href="#features" className="hover:text-white">
               Features
             </a>
-            <a href="#pricing" className="transition hover:text-[var(--text)]">
+            <a href="#how" className="hover:text-white">
+              How It Works
+            </a>
+            <a href="#pricing" className="hover:text-white">
               Pricing
             </a>
-            <a href="#faq" className="transition hover:text-[var(--text)]">
-              FAQ
-            </a>
-          </nav>
-
-          <div className="flex items-center gap-3">
-            <button
-              type="button"
-              onClick={() => setMobileMenuOpen((prev) => !prev)}
-              className="rounded-lg border border-[var(--border)] bg-[var(--surface-1)] px-3 py-2 text-sm md:hidden"
-              aria-expanded={mobileMenuOpen}
-              aria-label="Toggle menu"
-            >
-              Menu
-            </button>
-            <a
-              href="#cta"
-              onClick={() =>
-                trackEvent({ action: "cta_click", category: "engagement", label: "header_waitlist" })
-              }
-              className="hidden rounded-lg bg-[var(--accent)] px-4 py-2 text-sm font-semibold text-black transition hover:opacity-90 md:inline-block"
-            >
-              Join Waitlist
+            <a href="/blog" className="hover:text-white">
+              Blog
             </a>
           </div>
-        </div>
-
-        {mobileMenuOpen ? (
-          <div className="border-t border-[var(--border)] bg-[#0e0e0e] px-6 py-4 md:hidden">
-            <div className="flex flex-col gap-3 text-sm">
-              <a href="#how-it-works" onClick={() => setMobileMenuOpen(false)}>
-                How It Works
-              </a>
-              <a href="#features" onClick={() => setMobileMenuOpen(false)}>
-                Features
-              </a>
-              <a href="#pricing" onClick={() => setMobileMenuOpen(false)}>
-                Pricing
-              </a>
-              <a href="#faq" onClick={() => setMobileMenuOpen(false)}>
-                FAQ
-              </a>
-              <a
-                href="#cta"
-                onClick={() => {
-                  trackEvent({
-                    action: "cta_click",
-                    category: "engagement",
-                    label: "mobile_waitlist"
-                  });
-                  setMobileMenuOpen(false);
-                }}
-                className="mt-1 inline-block rounded-lg bg-[var(--accent)] px-4 py-2 font-semibold text-black"
-              >
-                Join Waitlist
-              </a>
-            </div>
-          </div>
-        ) : null}
+          <a
+            href="/signup"
+            className="rounded-xl bg-[var(--amber)] px-4 py-2 text-sm font-semibold text-[#131313] transition hover:brightness-105"
+          >
+            Get Early Access
+          </a>
+        </nav>
       </header>
 
       <main>
-        <section className="mx-auto grid w-full max-w-6xl gap-10 px-6 pb-24 pt-16 md:grid-cols-[1.2fr_1fr] md:px-10 md:pt-24">
-          <div>
-            <p className="mb-6 text-[11px] font-medium uppercase tracking-[0.2em] text-[var(--muted)]">
-              Calm control for modern life
+        <section className="relative mx-auto grid w-full max-w-6xl gap-12 px-6 pb-24 pt-16 md:grid-cols-[1.06fr_1fr] md:px-10 md:pt-24">
+          <div data-reveal className="reveal">
+            <p className="mb-5 text-xs uppercase tracking-[0.2em] text-white/55">
+              Calm structure for modern life
             </p>
-            <h1 className="display-font max-w-3xl text-5xl leading-[0.95] tracking-tight md:text-8xl">
-              Money and life admin, finally in one place.
+            <h1 className="display-font text-5xl leading-[0.95] tracking-tight md:text-8xl">
+              Your whole life.
+              <br />
+              Finally organized.
+              <br />
+              Finally calm.
             </h1>
-            <p className="mt-7 max-w-2xl text-base leading-7 text-[#b2b2ad]">
-              Tame helps you stay ahead of expenses, subscriptions, documents,
-              benefits, and deadlines without the overwhelm. No shame. No noise.
-              Just practical clarity and follow-through.
+            <p className="mt-7 max-w-xl text-base leading-7 text-white/70">
+              Tame is your Life OS. Bring order to tasks, goals, habits, and projects across
+              personal and professional life without the noise.
             </p>
+
+            <div className="mt-8 flex flex-wrap gap-3">
+              <a
+                href={appSignupUrl}
+                className="rounded-xl bg-[var(--amber)] px-6 py-3 text-sm font-semibold text-[#151515] transition hover:brightness-105"
+              >
+                Start Free
+              </a>
+              <a
+                href="#how"
+                className="rounded-xl border border-white/20 bg-white/5 px-6 py-3 text-sm font-semibold text-white backdrop-blur hover:bg-white/10"
+              >
+                See How It Works
+              </a>
+            </div>
 
             <div className="mt-9">
-              <WaitlistForm />
+              <WaitlistForm source="hero" />
             </div>
           </div>
 
-          <aside className="rounded-2xl border border-[var(--border)] bg-[var(--surface-1)] p-5">
-            <div className="mb-5 flex items-center justify-between border-b border-[var(--border)] pb-4">
-              <p className="text-sm font-medium text-[#d8d8d3]">Live overview</p>
-              <span className="rounded-full border border-[#1e4e34] bg-[#0d2418] px-3 py-1 text-xs font-semibold text-[#3dd08f]">
-                Live sync
-              </span>
-            </div>
-            <div className="space-y-2">
-              {[
-                ["Monthly surplus", "$847", "text-[var(--accent)]"],
-                ["Upcoming bills", "$612", "text-[#f0f0ec]"],
-                ["Admin tasks due", "4", "text-[#f0f0ec]"],
-                ["Subscriptions", "$126", "text-[#f0f0ec]"],
-                ["Renewals this month", "3", "text-[#f0f0ec]"]
-              ].map(([label, value, valueColor]) => (
-                <div
-                  key={label}
-                  className="flex items-center justify-between rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-3 py-2.5"
-                >
-                  <span className="text-sm text-[#a4a49e]">{label}</span>
-                  <span className={`text-sm font-semibold ${valueColor}`}>{value}</span>
+          <div data-reveal className="reveal">
+            <div className="glass-card overflow-hidden rounded-3xl p-4 md:p-5">
+              <div className="rounded-2xl border border-white/12 bg-[#0f131c] p-3 shadow-[0_24px_80px_rgba(0,0,0,0.45)]">
+                <div className="mb-3 flex items-center justify-between border-b border-white/10 pb-3">
+                  <p className="text-sm font-medium text-white/85">Tame · Today</p>
+                  <span className="rounded-full border border-[#4ECDC455] bg-[#4ECDC41a] px-3 py-1 text-xs text-[#7de7df]">
+                    Synced
+                  </span>
                 </div>
-              ))}
+
+                <div className="grid gap-3 md:grid-cols-[72px_1fr]">
+                  <aside className="rounded-xl border border-white/10 bg-white/5 p-2">
+                    <div className="grid gap-2 text-center text-xs text-white/60">
+                      {["🏠", "📅", "✅", "🧠", "📊"].map((item) => (
+                        <div key={item} className="rounded-lg border border-white/10 bg-[#111827] py-2">
+                          {item}
+                        </div>
+                      ))}
+                    </div>
+                  </aside>
+
+                  <div className="space-y-3">
+                    <div className="rounded-xl border border-white/10 bg-white/5 p-3">
+                      <p className="mb-2 text-xs uppercase tracking-[0.18em] text-white/50">Today List</p>
+                      <div className="space-y-2 text-sm">
+                        <div className="flex items-center justify-between rounded-lg bg-[#141a25] px-3 py-2">
+                          <span>Finalize roadmap draft</span>
+                          <span className="text-[#F7B731]">High</span>
+                        </div>
+                        <div className="flex items-center justify-between rounded-lg bg-[#141a25] px-3 py-2">
+                          <span>Review budget check-in</span>
+                          <span className="text-[#7de7df]">Done</span>
+                        </div>
+                        <div className="flex items-center justify-between rounded-lg bg-[#141a25] px-3 py-2">
+                          <span>Call contractor at 4:30</span>
+                          <span className="text-white/65">Today</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="grid gap-3 sm:grid-cols-2">
+                      <div className="rounded-xl border border-white/10 bg-white/5 p-3">
+                        <p className="mb-2 text-xs uppercase tracking-[0.18em] text-white/50">
+                          Habit Tracker
+                        </p>
+                        <div className="flex gap-1">
+                          {[1, 1, 1, 0, 1, 1, 0].map((active, idx) => (
+                            <span
+                              key={String(idx)}
+                              className={`h-6 w-6 rounded-md border border-white/12 ${
+                                active ? "bg-[#4ECDC4]" : "bg-[#1a2331]"
+                              }`}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                      <div className="rounded-xl border border-white/10 bg-white/5 p-3">
+                        <p className="mb-2 text-xs uppercase tracking-[0.18em] text-white/50">
+                          Focus Timer
+                        </p>
+                        <div className="flex items-end justify-between">
+                          <p className="display-font text-3xl leading-none text-[#F7B731]">24:17</p>
+                          <p className="text-xs text-white/60">Session 2 of 4</p>
+                        </div>
+                        <div className="mt-2 h-1.5 rounded-full bg-white/10">
+                          <div className="h-full w-2/3 rounded-full bg-gradient-to-r from-[#4ECDC4] to-[#F7B731]" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-          </aside>
-        </section>
-
-        <section id="how-it-works" className="mx-auto w-full max-w-6xl px-6 py-20 md:px-10">
-          <div className="mb-10">
-            <p className="mb-3 text-[11px] font-medium uppercase tracking-[0.2em] text-[var(--muted)]">
-              How It Works
-            </p>
-            <h2 className="display-font text-4xl leading-none tracking-tight md:text-5xl">
-              A simple flow that turns chaos into clarity.
-            </h2>
-          </div>
-
-          <div className="grid gap-4 md:grid-cols-3">
-            {steps.map((step, index) => (
-              <article
-                key={step.title}
-                className="rounded-2xl border border-[var(--border)] bg-[var(--surface-1)] p-6"
-              >
-                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--muted)]">
-                  Step {String(index + 1).padStart(2, "0")}
-                </p>
-                <h3 className="mt-4 text-xl font-semibold">{step.title}</h3>
-                <p className="mt-3 text-sm leading-6 text-[#a8a8a2]">{step.text}</p>
-              </article>
-            ))}
           </div>
         </section>
 
-        <section id="features" className="mx-auto w-full max-w-6xl px-6 py-20 md:px-10">
-          <div className="mb-10">
-            <p className="mb-3 text-[11px] font-medium uppercase tracking-[0.2em] text-[var(--muted)]">
-              Features
+        <section data-reveal className="reveal border-y border-white/10 bg-white/[0.02]">
+          <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 px-6 py-5 md:flex-row md:items-center md:justify-between md:px-10">
+            <p className="text-sm text-white/80">
+              Trusted by <span className="font-semibold text-white">2,400+ early users</span>
             </p>
-            <h2 className="display-font text-4xl leading-none tracking-tight md:text-5xl">
-              Built for real life, not just budgeting.
+            <div className="flex items-center gap-3">
+              <div className="flex -space-x-2">
+                {["AL", "JR", "MN", "SK", "TP"].map((initials, idx) => (
+                  <span
+                    key={initials}
+                    className={`flex h-8 w-8 items-center justify-center rounded-full border border-[#0a0c12] text-xs font-semibold ${
+                      idx % 2 === 0 ? "bg-[#4ECDC4] text-[#0a0c12]" : "bg-[#F7B731] text-[#0a0c12]"
+                    }`}
+                  >
+                    {initials}
+                  </span>
+                ))}
+              </div>
+              <span className="text-sm text-white/70">★★★★★ 4.9/5</span>
+            </div>
+          </div>
+        </section>
+
+        <section id="features" className="mx-auto w-full max-w-6xl px-6 py-24 md:px-10">
+          <div data-reveal className="reveal mb-10">
+            <p className="mb-3 text-xs uppercase tracking-[0.2em] text-white/55">Features</p>
+            <h2 className="display-font text-4xl leading-none tracking-tight md:text-6xl">
+              A complete operating layer for your life.
             </h2>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {features.map((feature) => (
+            {features.map((feature, idx) => (
               <article
                 key={feature.title}
-                className="rounded-2xl border border-[var(--border)] bg-[var(--surface-1)] p-6"
+                data-reveal
+                className="reveal glass-card rounded-2xl p-6 transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_44px_rgba(78,205,196,0.18)]"
+                style={{ transitionDelay: `${idx * 35}ms` }}
               >
-                <h3 className="text-lg font-semibold">{feature.title}</h3>
-                <p className="mt-2 text-sm leading-6 text-[#a8a8a2]">{feature.text}</p>
+                <p className="mb-3 text-2xl">{feature.icon}</p>
+                <h3 className="text-lg font-semibold text-white">{feature.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-white/68">{feature.description}</p>
               </article>
             ))}
           </div>
         </section>
 
-        <section id="pricing" className="mx-auto w-full max-w-6xl px-6 py-20 md:px-10">
-          <div className="mb-10 flex flex-col justify-between gap-6 md:flex-row md:items-end">
-            <div>
-              <p className="mb-3 text-[11px] font-medium uppercase tracking-[0.2em] text-[var(--muted)]">
-                Pricing
-              </p>
-              <h2 className="display-font text-4xl leading-none tracking-tight md:text-5xl">
-                Start free. Upgrade when you want automation.
-              </h2>
-              <p className="mt-3 text-sm text-[#a8a8a2]">
-                Annual billing saves ${yearlySavings} per year on Pro.
-              </p>
-            </div>
-
-            <div className="inline-flex rounded-lg border border-[var(--border)] bg-[var(--surface-1)] p-1">
-              <button
-                type="button"
-                onClick={() => setIsMonthly(true)}
-                className={`rounded-md px-4 py-2 text-sm font-medium transition ${
-                  isMonthly ? "bg-[var(--accent)] text-black" : "text-[#a8a8a2]"
-                }`}
-              >
-                Monthly
-              </button>
-              <button
-                type="button"
-                onClick={() => setIsMonthly(false)}
-                className={`rounded-md px-4 py-2 text-sm font-medium transition ${
-                  !isMonthly ? "bg-[var(--accent)] text-black" : "text-[#a8a8a2]"
-                }`}
-              >
-                Annual
-              </button>
-            </div>
-          </div>
-
-          <div className="grid gap-4 md:grid-cols-2">
-            {plans.map((plan) => (
-              <article
-                key={plan.name}
-                className={`rounded-2xl border p-7 ${
-                  plan.highlight
-                    ? "border-[var(--accent)] bg-[linear-gradient(180deg,rgba(200,240,128,0.08),rgba(255,255,255,0.01))]"
-                    : "border-[var(--border)] bg-[var(--surface-1)]"
-                }`}
-              >
-                <p className="text-sm font-semibold text-[#d7d7d2]">{plan.name}</p>
-                <p className="display-font mt-2 text-5xl leading-none tracking-tight">
-                  {formatPrice(isMonthly, plan)}
-                </p>
-                <p className="mt-3 text-sm leading-6 text-[#a8a8a2]">{plan.description}</p>
-                <ul className="mt-6 space-y-2 text-sm text-[#d3d3ce]">
-                  {plan.features.map((feature) => (
-                    <li key={feature}>- {feature}</li>
-                  ))}
-                </ul>
-                <a
-                  href={plan.name === "Pro" ? proCheckoutUrl : appSignupUrl}
-                  onClick={() =>
-                    trackEvent({
-                      action: "pricing_cta_click",
-                      category: "conversion",
-                      label: plan.name.toLowerCase()
-                    })
-                  }
-                  className={`mt-7 inline-block rounded-lg px-5 py-2.5 text-sm font-semibold transition ${
-                    plan.highlight
-                      ? "bg-[var(--accent)] text-black hover:opacity-90"
-                      : "border border-[var(--border)] bg-[var(--surface-2)] text-[var(--text)] hover:bg-[var(--surface-1)]"
-                  }`}
-                >
-                  {plan.cta}
-                </a>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section id="faq" className="mx-auto w-full max-w-6xl px-6 py-20 md:px-10">
-          <div className="mb-10">
-            <p className="mb-3 text-[11px] font-medium uppercase tracking-[0.2em] text-[var(--muted)]">
-              FAQ
-            </p>
-            <h2 className="display-font text-4xl leading-none tracking-tight md:text-5xl">
-              Questions people ask before joining.
+        <section id="how" className="mx-auto w-full max-w-6xl px-6 py-24 md:px-10">
+          <div data-reveal className="reveal mb-12">
+            <p className="mb-3 text-xs uppercase tracking-[0.2em] text-white/55">How It Works</p>
+            <h2 className="display-font text-4xl leading-none tracking-tight md:text-6xl">
+              Three steps from chaos to clarity.
             </h2>
           </div>
 
-          <div className="space-y-3">
-            {faqs.map((faq, index) => {
-              const open = openFaq === index;
-              return (
-                <article
-                  key={faq.question}
-                  className="overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface-1)]"
-                >
-                  <button
-                    type="button"
-                    onClick={() => setOpenFaq(open ? -1 : index)}
-                    className="flex w-full items-center justify-between px-5 py-4 text-left"
-                    aria-expanded={open}
-                  >
-                    <span className="text-base font-semibold">{faq.question}</span>
-                    <span className="text-xl text-[var(--muted)]">{open ? "-" : "+"}</span>
-                  </button>
-                  {open ? (
-                    <p className="border-t border-[var(--border)] px-5 py-4 text-sm leading-6 text-[#a8a8a2]">
-                      {faq.answer}
-                    </p>
-                  ) : null}
+          <div className="grid gap-6 md:grid-cols-3">
+            {[
+              {
+                n: "01",
+                icon: "🧠",
+                title: "Capture everything",
+                text: "Brain dump tasks, notes, and ideas instantly before they fragment your attention."
+              },
+              {
+                n: "02",
+                icon: "⚙️",
+                title: "Tame organizes it",
+                text: "Smart rules and intelligent structure sort your life into meaningful priorities."
+              },
+              {
+                n: "03",
+                icon: "🌿",
+                title: "Live with clarity",
+                text: "Daily focus, habits, and goals stay aligned so progress feels calm and sustainable."
+              }
+            ].map((step, idx) => (
+              <div key={step.n} data-reveal className="reveal relative">
+                <article className="glass-card h-full rounded-2xl p-6">
+                  <p className="display-font text-4xl text-[var(--teal)]">{step.n}</p>
+                  <p className="mt-3 text-2xl">{step.icon}</p>
+                  <h3 className="mt-3 text-xl font-semibold">{step.title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-white/70">{step.text}</p>
                 </article>
-              );
-            })}
+                {idx < 2 ? (
+                  <div className="pointer-events-none absolute -right-3 top-1/2 hidden h-px w-6 bg-gradient-to-r from-[#4ECDC4] to-transparent md:block" />
+                ) : null}
+              </div>
+            ))}
           </div>
         </section>
 
-        <section id="cta" className="mx-auto w-full max-w-6xl px-6 pb-24 pt-8 md:px-10">
-          <div className="rounded-3xl border border-[var(--border)] bg-[var(--surface-1)] px-7 py-12 md:px-10">
-            <p className="mb-3 text-[11px] font-medium uppercase tracking-[0.2em] text-[var(--muted)]">
-              Get Early Access
-            </p>
-            <h2 className="display-font text-5xl leading-[0.95] tracking-tight md:text-6xl">
-              No shame. No chaos. Just clarity.
+        <section className="mx-auto w-full max-w-6xl px-6 py-24 md:px-10">
+          <div data-reveal className="reveal mb-10">
+            <p className="mb-3 text-xs uppercase tracking-[0.2em] text-white/55">Testimonials</p>
+            <h2 className="display-font text-4xl leading-none tracking-tight md:text-6xl">
+              Loved by thoughtful operators.
             </h2>
-            <p className="mt-5 max-w-2xl text-sm leading-6 text-[#a8a8a2]">
-              Join the waitlist and get updates as Tame rolls out full automation,
-              account support, and deeper life-admin workflows.
-            </p>
-            <div className="mt-8">
-              <WaitlistForm compact />
+          </div>
+          <div className="grid gap-4 md:grid-cols-3">
+            {testimonials.map((item) => (
+              <article key={item.name} data-reveal className="reveal glass-card rounded-2xl p-6">
+                <p className="mb-4 text-3xl text-[var(--teal)]">“</p>
+                <p className="text-sm leading-7 text-white/80">{item.quote}</p>
+                <p className="mt-5 text-sm font-semibold text-white">{item.name}</p>
+                <p className="text-xs text-white/55">{item.title}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section id="pricing" className="mx-auto w-full max-w-6xl px-6 pb-24 pt-8 md:px-10">
+          <div data-reveal className="reveal relative overflow-hidden rounded-3xl border border-white/15 bg-white/[0.04] p-8 md:p-10">
+            <div className="absolute inset-0 bg-[radial-gradient(60%_90%_at_80%_20%,rgba(78,205,196,0.22),transparent),radial-gradient(55%_85%_at_20%_80%,rgba(247,183,49,0.2),transparent)]" />
+            <div className="relative">
+              <p className="mb-3 text-xs uppercase tracking-[0.2em] text-white/60">Get Early Access</p>
+              <h2 className="display-font text-4xl leading-none tracking-tight md:text-6xl">
+                Ready to tame your life?
+              </h2>
+              <p className="mt-4 max-w-2xl text-sm leading-7 text-white/75">
+                Join the waitlist for launch access, product updates, and invitation-only onboarding.
+              </p>
+              <div className="mt-8">
+                <WaitlistForm source="banner" />
+              </div>
             </div>
           </div>
         </section>
       </main>
 
-      <footer className="border-t border-[var(--border)] bg-[#0a0a0a]">
-        <div className="mx-auto grid w-full max-w-6xl gap-8 px-6 py-10 text-sm text-[var(--muted)] md:grid-cols-[1fr_auto] md:px-10">
+      <footer className="border-t border-white/12 bg-[#090b11]">
+        <div className="mx-auto grid w-full max-w-6xl gap-8 px-6 py-10 md:grid-cols-[1fr_auto] md:px-10">
           <div>
-            <p className="display-font text-3xl leading-none text-[var(--text)]">
-              tame<span className="text-[var(--accent)]">.</span>
-            </p>
-            <p className="mt-2 max-w-md text-xs leading-5">
-              Tame is building the operating system for modern life admin.
-            </p>
-            <p className="mt-3 text-xs">(c) {new Date().getFullYear()} Tame. All rights reserved.</p>
+            <p className="logo-word text-4xl italic leading-none text-[var(--teal)]">Tame</p>
+            <p className="mt-2 text-sm text-white/60">Life OS for calm, aligned execution.</p>
+            <p className="mt-3 text-xs text-white/45">© 2025 Tame. All rights reserved.</p>
           </div>
-          <div className="flex items-end gap-5">
-            <a href="/terms" className="transition hover:text-[var(--text)]">
-              Terms
+          <div className="flex flex-wrap items-end gap-5 text-sm text-white/70">
+            <a href="#features" className="hover:text-white">
+              Features
             </a>
-            <a href="/privacy" className="transition hover:text-[var(--text)]">
-              Privacy
+            <a href="#how" className="hover:text-white">
+              How It Works
             </a>
-            <a href="/security" className="transition hover:text-[var(--text)]">
-              Security
+            <a href="#pricing" className="hover:text-white">
+              Pricing
             </a>
-            <a href="/contact" className="transition hover:text-[var(--text)]">
-              Contact
+            <a href="/blog" className="hover:text-white">
+              Blog
+            </a>
+            <a href="https://x.com" aria-label="X" className="hover:text-white">
+              X
+            </a>
+            <a href="https://instagram.com" aria-label="Instagram" className="hover:text-white">
+              IG
+            </a>
+            <a href="https://linkedin.com" aria-label="LinkedIn" className="hover:text-white">
+              IN
             </a>
           </div>
         </div>

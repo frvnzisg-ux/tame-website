@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
-import { Geist, Instrument_Serif } from "next/font/google";
+import { DM_Sans, Fraunces } from "next/font/google";
 import AnalyticsProvider from "./analytics-provider";
 import "./globals.css";
 
-const sans = Geist({
+const sans = DM_Sans({
   subsets: ["latin"],
   variable: "--font-sans"
 });
 
-const serif = Instrument_Serif({
-  weight: "400",
+const serif = Fraunces({
+  style: ["italic", "normal"],
   subsets: ["latin"],
   variable: "--font-serif"
 });
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://www.tamelife.app"),
   title: "Tame | Life Operating System",
   description:
-    "Tame is a Life Operating System for money and modern life admin: expenses, subscriptions, documents, benefits, and deadlines in one calm dashboard.",
+    "Tame is a Life OS that helps people organize tasks, goals, and habits into calm daily clarity.",
   alternates: {
     canonical: "/"
   },
