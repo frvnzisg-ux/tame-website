@@ -372,7 +372,7 @@ export default function Home() {
           </div>
 
           {activeModule === "finances" ? (
-            <article data-reveal className="reveal glass-card rounded-2xl p-5">
+            <article className="glass-card rounded-2xl p-5">
               <div className="mb-4 flex items-center justify-between border-b border-white/10 pb-3">
                 <p className="text-sm font-semibold">Finances</p>
                 <span className="text-xs text-[var(--amber)]">Income Waterfall</span>
@@ -411,7 +411,7 @@ export default function Home() {
           ) : null}
 
           {activeModule === "accounts" ? (
-            <article data-reveal className="reveal glass-card rounded-2xl p-5">
+            <article className="glass-card rounded-2xl p-5">
               <div className="mb-4 flex items-center justify-between border-b border-white/10 pb-3">
                 <p className="text-sm font-semibold">Accounts</p>
                 <span className="text-xs text-[var(--teal)]">6 connected</span>
@@ -445,7 +445,7 @@ export default function Home() {
           ) : null}
 
           {activeModule === "debt" ? (
-            <article data-reveal className="reveal glass-card rounded-2xl p-5">
+            <article className="glass-card rounded-2xl p-5">
               <div className="mb-4 flex items-center justify-between border-b border-white/10 pb-3">
                 <p className="text-sm font-semibold">Debt Payoff</p>
                 <span className="text-xs text-[var(--danger)]">Avalanche strategy</span>
@@ -481,7 +481,7 @@ export default function Home() {
           ) : null}
 
           {activeModule === "home" ? (
-            <article data-reveal className="reveal glass-card rounded-2xl p-5">
+            <article className="glass-card rounded-2xl p-5">
               <div className="mb-4 flex items-center justify-between border-b border-white/10 pb-3">
                 <p className="text-sm font-semibold">Home</p>
                 <span className="text-xs text-[var(--amber)]">Property overview</span>
