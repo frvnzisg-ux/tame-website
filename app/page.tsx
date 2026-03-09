@@ -122,10 +122,12 @@ function WaitlistForm({ source }: { source: "hero" | "banner" }) {
           disabled={state.loading}
           className="rounded-xl bg-[var(--amber)] px-5 py-3 text-sm font-semibold text-[#1a1a1a] transition hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-60"
         >
-          {state.loading ? "Joining..." : "Join the Waitlist"}
+          {state.loading ? "Joining..." : source === "hero" ? "Get Early Access" : "Join the Waitlist"}
         </button>
       </div>
-      <p className="mt-2 text-xs text-white/55">No spam. Product updates only.</p>
+      <p className="mt-2 text-xs text-white/55">
+        No spam. Product updates only. Early access invites roll out weekly.
+      </p>
       {state.message ? <p className="mt-2 text-sm text-[#6de2c4]">{state.message}</p> : null}
       {state.error ? <p className="mt-2 text-sm text-[#ff7d7d]">{state.error}</p> : null}
     </form>
@@ -207,18 +209,18 @@ export default function Home() {
         <section className="relative mx-auto grid w-full max-w-6xl gap-12 px-6 pb-24 pt-16 md:grid-cols-[1.06fr_1fr] md:px-10 md:pt-24">
           <div data-reveal className="reveal">
             <p className="mb-5 text-xs uppercase tracking-[0.2em] text-white/55">
-              Calm structure for modern life
+              Calm structure for ambitious lives
             </p>
             <h1 className="display-font text-5xl leading-[0.95] tracking-tight md:text-8xl">
-              Your whole life.
+              Get everything out of your head.
               <br />
-              Finally organized.
+              See what matters.
               <br />
-              Finally calm.
+              Move with calm.
             </h1>
             <p className="mt-7 max-w-xl text-base leading-7 text-white/70">
-              Tame is your Life OS. Bring order to tasks, goals, habits, and projects across
-              personal and professional life without the noise.
+              Tame is your Life OS for tasks, goals, habits, and projects. Capture everything once,
+              let Tame organize the signal, and execute each day with clear priorities.
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
@@ -226,13 +228,13 @@ export default function Home() {
                 href={appSignupUrl}
                 className="rounded-xl bg-[var(--amber)] px-6 py-3 text-sm font-semibold text-[#151515] transition hover:brightness-105"
               >
-                Start Free
+                Start Free in 2 Minutes
               </a>
               <a
                 href="#how"
                 className="rounded-xl border border-white/20 bg-white/5 px-6 py-3 text-sm font-semibold text-white backdrop-blur hover:bg-white/10"
               >
-                See How It Works
+                See the 3-Step Flow
               </a>
             </div>
 
@@ -320,7 +322,8 @@ export default function Home() {
         <section data-reveal className="reveal border-y border-white/10 bg-white/[0.02]">
           <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 px-6 py-5 md:flex-row md:items-center md:justify-between md:px-10">
             <p className="text-sm text-white/80">
-              Trusted by <span className="font-semibold text-white">2,400+ early users</span>
+              Trusted by <span className="font-semibold text-white">2,400+ early users</span> building
+              calmer systems for work and life
             </p>
             <div className="flex items-center gap-3">
               <div className="flex -space-x-2">
@@ -344,7 +347,7 @@ export default function Home() {
           <div data-reveal className="reveal mb-10">
             <p className="mb-3 text-xs uppercase tracking-[0.2em] text-white/55">Features</p>
             <h2 className="display-font text-4xl leading-none tracking-tight md:text-6xl">
-              A complete operating layer for your life.
+              Everything you need to run life with clarity.
             </h2>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -367,7 +370,7 @@ export default function Home() {
           <div data-reveal className="reveal mb-12">
             <p className="mb-3 text-xs uppercase tracking-[0.2em] text-white/55">How It Works</p>
             <h2 className="display-font text-4xl leading-none tracking-tight md:text-6xl">
-              Three steps from chaos to clarity.
+              Capture once. Align automatically. Execute clearly.
             </h2>
           </div>
 
@@ -411,7 +414,7 @@ export default function Home() {
           <div data-reveal className="reveal mb-10">
             <p className="mb-3 text-xs uppercase tracking-[0.2em] text-white/55">Testimonials</p>
             <h2 className="display-font text-4xl leading-none tracking-tight md:text-6xl">
-              Loved by thoughtful operators.
+              Built for thoughtful people who want less noise.
             </h2>
           </div>
           <div className="grid gap-4 md:grid-cols-3">
@@ -432,10 +435,10 @@ export default function Home() {
             <div className="relative">
               <p className="mb-3 text-xs uppercase tracking-[0.2em] text-white/60">Get Early Access</p>
               <h2 className="display-font text-4xl leading-none tracking-tight md:text-6xl">
-                Ready to tame your life?
+                Ready to replace overwhelm with a clear operating system?
               </h2>
               <p className="mt-4 max-w-2xl text-sm leading-7 text-white/75">
-                Join the waitlist for launch access, product updates, and invitation-only onboarding.
+                Join the waitlist for early access, product updates, and invite-only onboarding.
               </p>
               <div className="mt-8">
                 <WaitlistForm source="banner" />
@@ -450,7 +453,7 @@ export default function Home() {
           <div>
             <p className="logo-word text-4xl italic leading-none text-[var(--teal)]">Tame</p>
             <p className="mt-2 text-sm text-white/60">Life OS for calm, aligned execution.</p>
-            <p className="mt-3 text-xs text-white/45">© 2025 Tame. All rights reserved.</p>
+            <p className="mt-3 text-xs text-white/45">(c) 2025 Tame. All rights reserved.</p>
           </div>
           <div className="flex flex-wrap items-end gap-5 text-sm text-white/70">
             <a href="#features" className="hover:text-white">
