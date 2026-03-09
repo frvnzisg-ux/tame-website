@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { FormEvent, useEffect, useState } from "react";
 
@@ -10,53 +10,53 @@ type WaitlistState = {
 
 const features = [
   {
-    icon: "🗓",
+    icon: "O1",
     title: "Unified Dashboard",
-    description: "All your tasks, habits, goals, and projects in one living command center."
+    description: "All your tasks, habits, goals, and projects in one command center."
   },
   {
-    icon: "🎯",
+    icon: "O2",
     title: "Daily Focus Mode",
     description: "Zero in on what matters today with clear priorities and protected focus blocks."
   },
   {
-    icon: "🔁",
+    icon: "O3",
     title: "Habit Engine",
-    description: "Build routines that actually stick through consistency cues and trend tracking."
+    description: "Build routines that stick through visible consistency and trend feedback."
   },
   {
-    icon: "📊",
+    icon: "O4",
     title: "Life Analytics",
     description: "See patterns, spot gaps, and improve how your time and energy are invested."
   },
   {
-    icon: "🧠",
+    icon: "O5",
     title: "Capture Inbox",
-    description: "Drop thoughts, tasks, and ideas instantly, then organize them with smart rules."
+    description: "Drop thoughts instantly, then sort and prioritize them when context is clear."
   },
   {
-    icon: "🔗",
+    icon: "O6",
     title: "Integrations",
-    description: "Connect your calendar, notes, and key tools so your workflow stays in sync."
+    description: "Connect calendar, notes, and key apps so your system stays aligned."
   }
 ];
 
 const testimonials = [
   {
     quote:
-      "Tame gave me the first week in years where my life felt coordinated instead of constantly reactive.",
+      "Tame gave me the first week in years where my life felt coordinated instead of reactive.",
     name: "Maya R.",
     title: "Founder, Design Studio"
   },
   {
     quote:
-      "I finally have one place for work priorities, personal goals, and daily routines. It feels ridiculously clean.",
+      "I finally have one place for priorities, routines, and follow-through. It feels incredibly clean.",
     name: "Elliot K.",
     title: "Product Lead"
   },
   {
     quote:
-      "It doesn’t guilt you into productivity. It helps you choose what matters and execute calmly.",
+      "It does not guilt you into productivity. It helps you choose what matters and execute calmly.",
     name: "Sana P.",
     title: "Operations Manager"
   }
@@ -90,7 +90,7 @@ function WaitlistForm({ source }: { source: "hero" | "banner" }) {
       setEmail("");
       setState({
         loading: false,
-        message: result.message ?? "You're on the waitlist.",
+        message: result.message ?? "You are on the waitlist.",
         error: ""
       });
     } catch {
@@ -115,12 +115,12 @@ function WaitlistForm({ source }: { source: "hero" | "banner" }) {
           value={email}
           onChange={(event) => setEmail(event.target.value)}
           placeholder="name@company.com"
-          className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-white/45 focus:border-[var(--teal)] focus:outline-none"
+          className="w-full rounded-xl border border-white/12 bg-[#121212] px-4 py-3 text-sm text-white placeholder:text-white/40 focus:border-[var(--amber)] focus:outline-none"
         />
         <button
           type="submit"
           disabled={state.loading}
-          className="rounded-xl bg-[var(--amber)] px-5 py-3 text-sm font-semibold text-[#1a1a1a] transition hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-60"
+          className="rounded-xl bg-[var(--amber)] px-5 py-3 text-sm font-semibold text-[#101010] transition hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-60"
         >
           {state.loading ? "Joining..." : source === "hero" ? "Get Early Access" : "Join the Waitlist"}
         </button>
@@ -128,8 +128,8 @@ function WaitlistForm({ source }: { source: "hero" | "banner" }) {
       <p className="mt-2 text-xs text-white/55">
         No spam. Product updates only. Early access invites roll out weekly.
       </p>
-      {state.message ? <p className="mt-2 text-sm text-[#6de2c4]">{state.message}</p> : null}
-      {state.error ? <p className="mt-2 text-sm text-[#ff7d7d]">{state.error}</p> : null}
+      {state.message ? <p className="mt-2 text-sm text-[var(--ok)]">{state.message}</p> : null}
+      {state.error ? <p className="mt-2 text-sm text-[var(--danger)]">{state.error}</p> : null}
     </form>
   );
 }
@@ -168,37 +168,26 @@ export default function Home() {
       <div className="pointer-events-none absolute inset-0">
         <div className="orb orb-a" />
         <div className="orb orb-b" />
-        <div className="orb orb-c" />
       </div>
 
       <header
         className={`sticky top-0 z-40 border-b transition ${
-          scrolled
-            ? "border-white/15 bg-[#0a0c12cc] backdrop-blur-xl"
-            : "border-transparent bg-transparent"
+          scrolled ? "border-white/12 bg-[#0a0a0acc] backdrop-blur-xl" : "border-transparent bg-transparent"
         }`}
       >
-        <nav className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4 md:px-10">
-          <a href="#" className="text-4xl leading-none tracking-tight text-[var(--teal)] logo-word">
-            Tame
+        <nav className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-4 md:px-10">
+          <a href="#" className="text-4xl leading-none tracking-tight text-[var(--text)] logo-word">
+            tame<span className="text-[var(--amber)]">.</span>
           </a>
-          <div className="hidden items-center gap-8 text-sm text-white/75 md:flex">
-            <a href="#features" className="hover:text-white">
-              Features
-            </a>
-            <a href="#how" className="hover:text-white">
-              How It Works
-            </a>
-            <a href="#pricing" className="hover:text-white">
-              Pricing
-            </a>
-            <a href="/blog" className="hover:text-white">
-              Blog
-            </a>
+          <div className="hidden items-center gap-8 text-sm text-white/72 md:flex">
+            <a href="#features" className="hover:text-white">Features</a>
+            <a href="#how" className="hover:text-white">How It Works</a>
+            <a href="#pricing" className="hover:text-white">Pricing</a>
+            <a href="/blog" className="hover:text-white">Blog</a>
           </div>
           <a
             href="/signup"
-            className="rounded-xl bg-[var(--amber)] px-4 py-2 text-sm font-semibold text-[#131313] transition hover:brightness-105"
+            className="rounded-lg border border-transparent bg-[var(--amber)] px-4 py-2 text-sm font-semibold text-[#101010] transition hover:brightness-105"
           >
             Get Early Access
           </a>
@@ -206,11 +195,9 @@ export default function Home() {
       </header>
 
       <main>
-        <section className="relative mx-auto grid w-full max-w-6xl gap-12 px-6 pb-24 pt-16 md:grid-cols-[1.06fr_1fr] md:px-10 md:pt-24">
+        <section className="relative mx-auto grid w-full max-w-7xl gap-10 px-6 pb-20 pt-14 md:grid-cols-[1.02fr_1fr] md:px-10 md:pt-20">
           <div data-reveal className="reveal">
-            <p className="mb-5 text-xs uppercase tracking-[0.2em] text-white/55">
-              Calm structure for ambitious lives
-            </p>
+            <p className="mb-5 text-xs uppercase tracking-[0.2em] text-white/50">Life Operating System</p>
             <h1 className="display-font text-5xl leading-[0.95] tracking-tight md:text-8xl">
               Get everything out of your head.
               <br />
@@ -219,96 +206,101 @@ export default function Home() {
               Move with calm.
             </h1>
             <p className="mt-7 max-w-xl text-base leading-7 text-white/70">
-              Tame is your Life OS for tasks, goals, habits, and projects. Capture everything once,
-              let Tame organize the signal, and execute each day with clear priorities.
+              Tame brings your tasks, goals, habits, and life admin into one system that feels clear,
+              practical, and stable.
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
               <a
                 href={appSignupUrl}
-                className="rounded-xl bg-[var(--amber)] px-6 py-3 text-sm font-semibold text-[#151515] transition hover:brightness-105"
+                className="rounded-lg bg-[var(--amber)] px-6 py-3 text-sm font-semibold text-[#111] transition hover:brightness-105"
               >
                 Start Free in 2 Minutes
               </a>
               <a
                 href="#how"
-                className="rounded-xl border border-white/20 bg-white/5 px-6 py-3 text-sm font-semibold text-white backdrop-blur hover:bg-white/10"
+                className="rounded-lg border border-white/15 bg-[#111] px-6 py-3 text-sm font-semibold text-white hover:bg-[#151515]"
               >
                 See the 3-Step Flow
               </a>
             </div>
 
-            <div className="mt-9">
+            <div className="mt-8">
               <WaitlistForm source="hero" />
             </div>
           </div>
 
           <div data-reveal className="reveal">
-            <div className="glass-card overflow-hidden rounded-3xl p-4 md:p-5">
-              <div className="rounded-2xl border border-white/12 bg-[#0f131c] p-3 shadow-[0_24px_80px_rgba(0,0,0,0.45)]">
-                <div className="mb-3 flex items-center justify-between border-b border-white/10 pb-3">
-                  <p className="text-sm font-medium text-white/85">Tame · Today</p>
-                  <span className="rounded-full border border-[#4ECDC455] bg-[#4ECDC41a] px-3 py-1 text-xs text-[#7de7df]">
-                    Synced
+            <div className="glass-card overflow-hidden rounded-2xl p-3">
+              <div className="rounded-xl border border-white/10 bg-[#0f0f0f]">
+                <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
+                  <div>
+                    <p className="text-sm font-medium">Dashboard</p>
+                    <p className="text-xs text-white/45">Monday, March 9 · Demo mode · All nominal</p>
+                  </div>
+                  <span className="rounded-full border border-[#4c3f15] bg-[#231f12] px-3 py-1 text-xs text-[var(--amber)]">
+                    Demo
                   </span>
                 </div>
 
-                <div className="grid gap-3 md:grid-cols-[72px_1fr]">
-                  <aside className="rounded-xl border border-white/10 bg-white/5 p-2">
-                    <div className="grid gap-2 text-center text-xs text-white/60">
-                      {["🏠", "📅", "✅", "🧠", "📊"].map((item) => (
-                        <div key={item} className="rounded-lg border border-white/10 bg-[#111827] py-2">
-                          {item}
-                        </div>
-                      ))}
+                <div className="grid gap-2 border-b border-white/10 p-3 sm:grid-cols-2 lg:grid-cols-4">
+                  {[
+                    ["NET WORTH", "$18,430", "text-[var(--amber)]"],
+                    ["MONTHLY SURPLUS", "$1,715", "text-[var(--ok)]"],
+                    ["SAVINGS RATE", "33%", "text-[var(--teal)]"],
+                    ["ACTION NEEDED", "2", "text-[var(--danger)]"]
+                  ].map(([label, value, cls]) => (
+                    <div key={label} className="rounded-lg border border-white/10 bg-[#121212] p-2.5">
+                      <p className="text-[10px] tracking-[0.18em] text-white/45">{label}</p>
+                      <p className={`mt-1 text-2xl leading-none ${cls}`}>{value}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="grid gap-3 p-3 md:grid-cols-[180px_1fr]">
+                  <aside className="rounded-lg border border-white/10 bg-[#111] p-3">
+                    <p className="mb-2 text-[10px] tracking-[0.18em] text-white/45">NAVIGATION</p>
+                    <div className="space-y-1 text-sm">
+                      <div className="rounded-md border border-white/10 bg-[#171717] px-2 py-1.5 text-white">Dashboard</div>
+                      <div className="px-2 py-1.5 text-white/65">Finances</div>
+                      <div className="px-2 py-1.5 text-white/65">Accounts</div>
+                      <div className="px-2 py-1.5 text-white/65">Debt Payoff</div>
+                      <div className="px-2 py-1.5 text-white/65">Life Calendar</div>
                     </div>
                   </aside>
 
                   <div className="space-y-3">
-                    <div className="rounded-xl border border-white/10 bg-white/5 p-3">
-                      <p className="mb-2 text-xs uppercase tracking-[0.18em] text-white/50">Today List</p>
-                      <div className="space-y-2 text-sm">
-                        <div className="flex items-center justify-between rounded-lg bg-[#141a25] px-3 py-2">
-                          <span>Finalize roadmap draft</span>
-                          <span className="text-[#F7B731]">High</span>
-                        </div>
-                        <div className="flex items-center justify-between rounded-lg bg-[#141a25] px-3 py-2">
-                          <span>Review budget check-in</span>
-                          <span className="text-[#7de7df]">Done</span>
-                        </div>
-                        <div className="flex items-center justify-between rounded-lg bg-[#141a25] px-3 py-2">
-                          <span>Call contractor at 4:30</span>
-                          <span className="text-white/65">Today</span>
-                        </div>
+                    <div className="rounded-lg border border-white/10 bg-[#111] p-3">
+                      <p className="mb-2 text-xs uppercase tracking-[0.18em] text-white/50">Income Waterfall</p>
+                      <div className="space-y-2">
+                        {[72, 44, 29, 22, 16].map((w, i) => (
+                          <div key={String(i)} className="flex items-center gap-2">
+                            <span className="w-16 text-xs text-white/55">Item {i + 1}</span>
+                            <div className="h-1.5 flex-1 rounded-full bg-[#2a2a2a]">
+                              <div
+                                className="h-full rounded-full"
+                                style={{
+                                  width: `${w}%`,
+                                  background: i < 2 ? "#f08080" : i < 4 ? "#80c8f0" : "#c8f080"
+                                }}
+                              />
+                            </div>
+                          </div>
+                        ))}
                       </div>
                     </div>
 
                     <div className="grid gap-3 sm:grid-cols-2">
-                      <div className="rounded-xl border border-white/10 bg-white/5 p-3">
-                        <p className="mb-2 text-xs uppercase tracking-[0.18em] text-white/50">
-                          Habit Tracker
-                        </p>
-                        <div className="flex gap-1">
-                          {[1, 1, 1, 0, 1, 1, 0].map((active, idx) => (
-                            <span
-                              key={String(idx)}
-                              className={`h-6 w-6 rounded-md border border-white/12 ${
-                                active ? "bg-[#4ECDC4]" : "bg-[#1a2331]"
-                              }`}
-                            />
-                          ))}
-                        </div>
+                      <div className="rounded-lg border border-white/10 bg-[#111] p-3">
+                        <p className="mb-2 text-xs uppercase tracking-[0.18em] text-white/50">Upcoming</p>
+                        <p className="text-sm text-white/75">Eversource Electric · due in 4 days</p>
+                        <p className="mt-1 text-sm text-[var(--danger)]">$158.40</p>
                       </div>
-                      <div className="rounded-xl border border-white/10 bg-white/5 p-3">
-                        <p className="mb-2 text-xs uppercase tracking-[0.18em] text-white/50">
-                          Focus Timer
-                        </p>
-                        <div className="flex items-end justify-between">
-                          <p className="display-font text-3xl leading-none text-[#F7B731]">24:17</p>
-                          <p className="text-xs text-white/60">Session 2 of 4</p>
-                        </div>
-                        <div className="mt-2 h-1.5 rounded-full bg-white/10">
-                          <div className="h-full w-2/3 rounded-full bg-gradient-to-r from-[#4ECDC4] to-[#F7B731]" />
+                      <div className="rounded-lg border border-white/10 bg-[#111] p-3">
+                        <p className="mb-2 text-xs uppercase tracking-[0.18em] text-white/50">Focus Timer</p>
+                        <p className="display-font text-3xl leading-none text-[var(--teal)]">24:17</p>
+                        <div className="mt-2 h-1.5 rounded-full bg-[#2a2a2a]">
+                          <div className="h-full w-2/3 rounded-full bg-gradient-to-r from-[var(--teal)] to-[var(--amber)]" />
                         </div>
                       </div>
                     </div>
@@ -320,19 +312,17 @@ export default function Home() {
         </section>
 
         <section data-reveal className="reveal border-y border-white/10 bg-white/[0.02]">
-          <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 px-6 py-5 md:flex-row md:items-center md:justify-between md:px-10">
+          <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-6 py-5 md:flex-row md:items-center md:justify-between md:px-10">
             <p className="text-sm text-white/80">
-              Trusted by <span className="font-semibold text-white">2,400+ early users</span> building
-              calmer systems for work and life
+              Trusted by <span className="font-semibold text-white">2,400+ early users</span> building calmer
+              systems for work and life
             </p>
             <div className="flex items-center gap-3">
               <div className="flex -space-x-2">
-                {["AL", "JR", "MN", "SK", "TP"].map((initials, idx) => (
+                {["AL", "JR", "MN", "SK", "TP"].map((initials) => (
                   <span
                     key={initials}
-                    className={`flex h-8 w-8 items-center justify-center rounded-full border border-[#0a0c12] text-xs font-semibold ${
-                      idx % 2 === 0 ? "bg-[#4ECDC4] text-[#0a0c12]" : "bg-[#F7B731] text-[#0a0c12]"
-                    }`}
+                    className="flex h-8 w-8 items-center justify-center rounded-full border border-[#0a0a0a] bg-[#c8f080] text-xs font-semibold text-[#0e0e0e]"
                   >
                     {initials}
                   </span>
@@ -343,7 +333,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="features" className="mx-auto w-full max-w-6xl px-6 py-24 md:px-10">
+        <section id="features" className="mx-auto w-full max-w-7xl px-6 py-24 md:px-10">
           <div data-reveal className="reveal mb-10">
             <p className="mb-3 text-xs uppercase tracking-[0.2em] text-white/55">Features</p>
             <h2 className="display-font text-4xl leading-none tracking-tight md:text-6xl">
@@ -355,10 +345,10 @@ export default function Home() {
               <article
                 key={feature.title}
                 data-reveal
-                className="reveal glass-card rounded-2xl p-6 transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_44px_rgba(78,205,196,0.18)]"
+                className="reveal glass-card rounded-2xl p-6 transition duration-300 hover:-translate-y-1 hover:border-[var(--amber)]"
                 style={{ transitionDelay: `${idx * 35}ms` }}
               >
-                <p className="mb-3 text-2xl">{feature.icon}</p>
+                <p className="mb-3 text-xs tracking-[0.2em] text-white/50">{feature.icon}</p>
                 <h3 className="text-lg font-semibold text-white">{feature.title}</h3>
                 <p className="mt-2 text-sm leading-6 text-white/68">{feature.description}</p>
               </article>
@@ -366,7 +356,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="how" className="mx-auto w-full max-w-6xl px-6 py-24 md:px-10">
+        <section id="how" className="mx-auto w-full max-w-7xl px-6 py-24 md:px-10">
           <div data-reveal className="reveal mb-12">
             <p className="mb-3 text-xs uppercase tracking-[0.2em] text-white/55">How It Works</p>
             <h2 className="display-font text-4xl leading-none tracking-tight md:text-6xl">
@@ -378,39 +368,35 @@ export default function Home() {
             {[
               {
                 n: "01",
-                icon: "🧠",
                 title: "Capture everything",
                 text: "Brain dump tasks, notes, and ideas instantly before they fragment your attention."
               },
               {
                 n: "02",
-                icon: "⚙️",
                 title: "Tame organizes it",
                 text: "Smart rules and intelligent structure sort your life into meaningful priorities."
               },
               {
                 n: "03",
-                icon: "🌿",
                 title: "Live with clarity",
                 text: "Daily focus, habits, and goals stay aligned so progress feels calm and sustainable."
               }
             ].map((step, idx) => (
               <div key={step.n} data-reveal className="reveal relative">
                 <article className="glass-card h-full rounded-2xl p-6">
-                  <p className="display-font text-4xl text-[var(--teal)]">{step.n}</p>
-                  <p className="mt-3 text-2xl">{step.icon}</p>
+                  <p className="display-font text-4xl text-[var(--amber)]">{step.n}</p>
                   <h3 className="mt-3 text-xl font-semibold">{step.title}</h3>
                   <p className="mt-2 text-sm leading-6 text-white/70">{step.text}</p>
                 </article>
                 {idx < 2 ? (
-                  <div className="pointer-events-none absolute -right-3 top-1/2 hidden h-px w-6 bg-gradient-to-r from-[#4ECDC4] to-transparent md:block" />
+                  <div className="pointer-events-none absolute -right-3 top-1/2 hidden h-px w-6 bg-gradient-to-r from-[var(--amber)] to-transparent md:block" />
                 ) : null}
               </div>
             ))}
           </div>
         </section>
 
-        <section className="mx-auto w-full max-w-6xl px-6 py-24 md:px-10">
+        <section className="mx-auto w-full max-w-7xl px-6 py-24 md:px-10">
           <div data-reveal className="reveal mb-10">
             <p className="mb-3 text-xs uppercase tracking-[0.2em] text-white/55">Testimonials</p>
             <h2 className="display-font text-4xl leading-none tracking-tight md:text-6xl">
@@ -420,7 +406,7 @@ export default function Home() {
           <div className="grid gap-4 md:grid-cols-3">
             {testimonials.map((item) => (
               <article key={item.name} data-reveal className="reveal glass-card rounded-2xl p-6">
-                <p className="mb-4 text-3xl text-[var(--teal)]">“</p>
+                <p className="mb-4 text-3xl text-[var(--amber)]">"</p>
                 <p className="text-sm leading-7 text-white/80">{item.quote}</p>
                 <p className="mt-5 text-sm font-semibold text-white">{item.name}</p>
                 <p className="text-xs text-white/55">{item.title}</p>
@@ -429,9 +415,9 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="pricing" className="mx-auto w-full max-w-6xl px-6 pb-24 pt-8 md:px-10">
-          <div data-reveal className="reveal relative overflow-hidden rounded-3xl border border-white/15 bg-white/[0.04] p-8 md:p-10">
-            <div className="absolute inset-0 bg-[radial-gradient(60%_90%_at_80%_20%,rgba(78,205,196,0.22),transparent),radial-gradient(55%_85%_at_20%_80%,rgba(247,183,49,0.2),transparent)]" />
+        <section id="pricing" className="mx-auto w-full max-w-7xl px-6 pb-24 pt-8 md:px-10">
+          <div data-reveal className="reveal relative overflow-hidden rounded-2xl border border-white/12 bg-[#101010] p-8 md:p-10">
+            <div className="absolute inset-0 bg-[radial-gradient(60%_90%_at_80%_20%,rgba(128,200,240,0.14),transparent),radial-gradient(55%_85%_at_20%_80%,rgba(200,240,128,0.18),transparent)]" />
             <div className="relative">
               <p className="mb-3 text-xs uppercase tracking-[0.2em] text-white/60">Get Early Access</p>
               <h2 className="display-font text-4xl leading-none tracking-tight md:text-6xl">
@@ -448,35 +434,23 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="border-t border-white/12 bg-[#090b11]">
-        <div className="mx-auto grid w-full max-w-6xl gap-8 px-6 py-10 md:grid-cols-[1fr_auto] md:px-10">
+      <footer className="border-t border-white/12 bg-[#0a0a0a]">
+        <div className="mx-auto grid w-full max-w-7xl gap-8 px-6 py-10 md:grid-cols-[1fr_auto] md:px-10">
           <div>
-            <p className="logo-word text-4xl italic leading-none text-[var(--teal)]">Tame</p>
+            <p className="logo-word text-4xl italic leading-none text-[var(--text)]">
+              tame<span className="text-[var(--amber)]">.</span>
+            </p>
             <p className="mt-2 text-sm text-white/60">Life OS for calm, aligned execution.</p>
             <p className="mt-3 text-xs text-white/45">(c) 2025 Tame. All rights reserved.</p>
           </div>
           <div className="flex flex-wrap items-end gap-5 text-sm text-white/70">
-            <a href="#features" className="hover:text-white">
-              Features
-            </a>
-            <a href="#how" className="hover:text-white">
-              How It Works
-            </a>
-            <a href="#pricing" className="hover:text-white">
-              Pricing
-            </a>
-            <a href="/blog" className="hover:text-white">
-              Blog
-            </a>
-            <a href="https://x.com" aria-label="X" className="hover:text-white">
-              X
-            </a>
-            <a href="https://instagram.com" aria-label="Instagram" className="hover:text-white">
-              IG
-            </a>
-            <a href="https://linkedin.com" aria-label="LinkedIn" className="hover:text-white">
-              IN
-            </a>
+            <a href="#features" className="hover:text-white">Features</a>
+            <a href="#how" className="hover:text-white">How It Works</a>
+            <a href="#pricing" className="hover:text-white">Pricing</a>
+            <a href="/blog" className="hover:text-white">Blog</a>
+            <a href="https://x.com" aria-label="X" className="hover:text-white">X</a>
+            <a href="https://instagram.com" aria-label="Instagram" className="hover:text-white">IG</a>
+            <a href="https://linkedin.com" aria-label="LinkedIn" className="hover:text-white">IN</a>
           </div>
         </div>
       </footer>
