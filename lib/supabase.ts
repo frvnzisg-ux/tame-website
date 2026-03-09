@@ -30,7 +30,11 @@ export async function insertIntoSupabase(table: string, payload: InsertPayload) 
 
   if (!response.ok) {
     const text = await response.text();
-    return { ok: false, error: text || "Failed to write to Supabase." } as const;
+    return {
+      ok: false,
+      status: response.status,
+      error: text || "Failed to write to Supabase."
+    } as const;
   }
 
   return { ok: true } as const;

@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { trackEvent } from "@/lib/analytics";
 
 type ContactState = {
   loading: boolean;
@@ -38,8 +39,10 @@ export default function ContactPage() {
       setName("");
       setEmail("");
       setMessage("");
+      trackEvent({ action: "contact_submit_success", category: "conversion", label: "contact_page" });
       setState({ loading: false, message: result.message ?? "Message sent.", error: "" });
     } catch {
+      trackEvent({ action: "contact_submit_error", category: "conversion", label: "contact_page" });
       setState({ loading: false, message: "", error: "Network error. Please try again." });
     }
   };

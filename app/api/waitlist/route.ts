@@ -33,6 +33,11 @@ export async function POST(request: Request) {
     });
 
     if (!result.ok) {
+      if (result.status === 409) {
+        return NextResponse.json({
+          message: "You're already on the waitlist. We'll keep you updated."
+        });
+      }
       return NextResponse.json(
         { error: "Unable to save signup right now. Please try again." },
         { status: 500 }

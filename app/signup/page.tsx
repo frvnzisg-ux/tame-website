@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { trackEvent } from "@/lib/analytics";
 
 type FormState = {
   loading: boolean;
@@ -9,6 +10,9 @@ type FormState = {
 };
 
 export default function SignupPage() {
+  const appSignupUrl = process.env.NEXT_PUBLIC_APP_SIGNUP_URL || "https://app.tamelife.app/signup";
+  const proCheckoutUrl =
+    process.env.NEXT_PUBLIC_STRIPE_PRO_CHECKOUT_URL || "https://app.tamelife.app/upgrade";
   const [email, setEmail] = useState("");
   const [state, setState] = useState<FormState>({ loading: false, message: "", error: "" });
 
@@ -34,12 +38,14 @@ export default function SignupPage() {
       }
 
       setEmail("");
+      trackEvent({ action: "waitlist_submit_success", category: "conversion", label: "signup_page" });
       setState({
         loading: false,
         message: result.message ?? "You're on the waitlist.",
         error: ""
       });
     } catch {
+      trackEvent({ action: "waitlist_submit_error", category: "conversion", label: "signup_page" });
       setState({
         loading: false,
         message: "",
@@ -62,6 +68,30 @@ export default function SignupPage() {
           support@tamelife.app
         </a>
         .
+      </p>
+
+      <div className="mt-6 flex flex-wrap gap-3">
+        <a
+          href={appSignupUrl}
+          onClick={() =>
+            trackEvent({ action: "cta_click", category: "conversion", label: "signup_to_app" })
+          }
+          className="rounded-lg bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-black transition hover:opacity-90"
+        >
+          Continue to App Signup
+        </a>
+        <a
+          href={proCheckoutUrl}
+          onClick={() =>
+            trackEvent({ action: "cta_click", category: "conversion", label: "signup_to_checkout" })
+          }
+          className="rounded-lg border border-[var(--border)] bg-[var(--surface-1)] px-5 py-3 text-sm font-semibold text-[var(--text)] transition hover:bg-[var(--surface-2)]"
+        >
+          Go to Pro Checkout
+        </a>
+      </div>
+      <p className="mt-2 text-xs text-[#8e8e88]">
+        Choose app signup for Free access or checkout for Pro.
       </p>
 
       <form onSubmit={submit} className="mt-8 max-w-xl">

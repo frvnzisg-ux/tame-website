@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useMemo, useState } from "react";
+import { trackEvent } from "@/lib/analytics";
 
 type Plan = {
   name: string;
@@ -9,7 +10,6 @@ type Plan = {
   description: string;
   features: string[];
   cta: string;
-  href: string;
   highlight?: boolean;
 };
 
@@ -68,8 +68,7 @@ const plans: Plan[] = [
     annual: 0,
     description: "For building your baseline system and reducing day-to-day chaos.",
     features: ["Core dashboard", "Up to 5 bills and 5 documents", "Basic life calendar"],
-    cta: "Start Free",
-    href: "/signup?plan=free"
+    cta: "Start Free"
   },
   {
     name: "Pro",
@@ -82,7 +81,6 @@ const plans: Plan[] = [
       "Forgotten subscription detection"
     ],
     cta: "Join Pro",
-    href: "/signup?plan=pro",
     highlight: true
   }
 ];
@@ -145,12 +143,14 @@ function WaitlistForm({ compact = false }: { compact?: boolean }) {
       }
 
       setEmail("");
+      trackEvent({ action: "waitlist_submit_success", category: "conversion", label: "homepage" });
       setState({
         loading: false,
         message: result.message ?? "You're on the list.",
         error: ""
       });
     } catch {
+      trackEvent({ action: "waitlist_submit_error", category: "conversion", label: "homepage" });
       setState({
         loading: false,
         message: "",
@@ -197,6 +197,9 @@ export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const yearlySavings = useMemo(() => plans[1].monthly * 12 - plans[1].annual, []);
+  const appSignupUrl = process.env.NEXT_PUBLIC_APP_SIGNUP_URL || "https://app.tamelife.app/signup";
+  const proCheckoutUrl =
+    process.env.NEXT_PUBLIC_STRIPE_PRO_CHECKOUT_URL || "https://app.tamelife.app/upgrade";
 
   return (
     <div className="min-h-screen bg-[radial-gradient(70%_70%_at_50%_0%,rgba(200,240,128,0.08),transparent_60%),var(--background)] text-[var(--text)]">
@@ -238,6 +241,9 @@ export default function Home() {
             </button>
             <a
               href="#cta"
+              onClick={() =>
+                trackEvent({ action: "cta_click", category: "engagement", label: "header_waitlist" })
+              }
               className="hidden rounded-lg bg-[var(--accent)] px-4 py-2 text-sm font-semibold text-black transition hover:opacity-90 md:inline-block"
             >
               Join Waitlist
@@ -262,7 +268,14 @@ export default function Home() {
               </a>
               <a
                 href="#cta"
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={() => {
+                  trackEvent({
+                    action: "cta_click",
+                    category: "engagement",
+                    label: "mobile_waitlist"
+                  });
+                  setMobileMenuOpen(false);
+                }}
                 className="mt-1 inline-block rounded-lg bg-[var(--accent)] px-4 py-2 font-semibold text-black"
               >
                 Join Waitlist
@@ -424,7 +437,14 @@ export default function Home() {
                   ))}
                 </ul>
                 <a
-                  href={plan.href}
+                  href={plan.name === "Pro" ? proCheckoutUrl : appSignupUrl}
+                  onClick={() =>
+                    trackEvent({
+                      action: "pricing_cta_click",
+                      category: "conversion",
+                      label: plan.name.toLowerCase()
+                    })
+                  }
                   className={`mt-7 inline-block rounded-lg px-5 py-2.5 text-sm font-semibold transition ${
                     plan.highlight
                       ? "bg-[var(--accent)] text-black hover:opacity-90"

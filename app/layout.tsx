@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Instrument_Serif } from "next/font/google";
+import AnalyticsProvider from "./analytics-provider";
 import "./globals.css";
 
 const sans = Geist({
@@ -54,6 +55,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${sans.variable} ${serif.variable} antialiased`}>
         {children}
+        <AnalyticsProvider />
       </body>
     </html>
   );
