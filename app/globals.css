@@ -35,7 +35,7 @@ body {
 
 .logo-word {
   font-family: var(--font-serif), ui-serif, Georgia, serif;
-  font-style: italic;
+  font-style: normal;
 }
 
 .glass-card {

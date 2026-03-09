@@ -11,33 +11,33 @@ type WaitlistState = {
 const features = [
   {
     icon: "O1",
-    title: "Unified Dashboard",
-    description: "All your tasks, habits, goals, and projects in one command center."
+    title: "Finances Dashboard",
+    description: "Net worth, monthly surplus, savings rate, and upcoming obligations in one view."
   },
   {
     icon: "O2",
-    title: "Daily Focus Mode",
-    description: "Zero in on what matters today with clear priorities and protected focus blocks."
+    title: "Connected Accounts",
+    description: "All bank, credit, and investment accounts with balances and sync status."
   },
   {
     icon: "O3",
-    title: "Habit Engine",
-    description: "Build routines that stick through visible consistency and trend feedback."
+    title: "Debt Payoff",
+    description: "Track APR, payment impact, and payoff date with avalanche or snowball strategy."
   },
   {
     icon: "O4",
-    title: "Life Analytics",
-    description: "See patterns, spot gaps, and improve how your time and energy are invested."
+    title: "Home and Vehicle",
+    description: "Monitor equity, insurance, maintenance, and recurring ownership costs."
   },
   {
     icon: "O5",
-    title: "Capture Inbox",
-    description: "Drop thoughts instantly, then sort and prioritize them when context is clear."
+    title: "Documents and Benefits",
+    description: "Stay ahead of renewals, expiration dates, and use-it-or-lose-it balances."
   },
   {
     icon: "O6",
-    title: "Integrations",
-    description: "Connect calendar, notes, and key apps so your system stays aligned."
+    title: "Life Calendar",
+    description: "Payments, renewals, and action windows aligned in one operational timeline."
   }
 ];
 
@@ -180,6 +180,7 @@ export default function Home() {
             tame<span className="text-[var(--amber)]">.</span>
           </a>
           <div className="hidden items-center gap-8 text-sm text-white/72 md:flex">
+            <a href="#modules" className="hover:text-white">Modules</a>
             <a href="#features" className="hover:text-white">Features</a>
             <a href="#how" className="hover:text-white">How It Works</a>
             <a href="#pricing" className="hover:text-white">Pricing</a>
@@ -218,10 +219,10 @@ export default function Home() {
                 Start Free in 2 Minutes
               </a>
               <a
-                href="#how"
+                href="#modules"
                 className="rounded-lg border border-white/15 bg-[#111] px-6 py-3 text-sm font-semibold text-white hover:bg-[#151515]"
               >
-                See the 3-Step Flow
+                Explore Live Modules
               </a>
             </div>
 
@@ -333,6 +334,127 @@ export default function Home() {
           </div>
         </section>
 
+        <section id="modules" className="mx-auto w-full max-w-7xl px-6 py-24 md:px-10">
+          <div data-reveal className="reveal mb-10">
+            <p className="mb-3 text-xs uppercase tracking-[0.2em] text-white/55">Module Demonstrations</p>
+            <h2 className="display-font text-4xl leading-none tracking-tight md:text-6xl">
+              The exact modules users rely on inside Tame.
+            </h2>
+            <p className="mt-4 max-w-3xl text-sm leading-7 text-white/70">
+              The homepage now mirrors real in-app surfaces: finances, accounts, debt payoff, and
+              home operations with the same visual language used in product.
+            </p>
+          </div>
+
+          <div className="grid gap-4 lg:grid-cols-2">
+            <article data-reveal className="reveal glass-card rounded-2xl p-5">
+              <div className="mb-4 flex items-center justify-between border-b border-white/10 pb-3">
+                <p className="text-sm font-semibold">Finances</p>
+                <span className="text-xs text-[var(--amber)]">Income Waterfall</span>
+              </div>
+              <div className="mb-3 grid grid-cols-3 gap-2 text-sm">
+                <div className="rounded-lg border border-white/10 bg-[#121212] p-2">
+                  <p className="text-[10px] tracking-[0.16em] text-white/45">NET WORTH</p>
+                  <p className="text-2xl text-[var(--amber)]">$18,430</p>
+                </div>
+                <div className="rounded-lg border border-white/10 bg-[#121212] p-2">
+                  <p className="text-[10px] tracking-[0.16em] text-white/45">SURPLUS</p>
+                  <p className="text-2xl text-[var(--ok)]">$1,715</p>
+                </div>
+                <div className="rounded-lg border border-white/10 bg-[#121212] p-2">
+                  <p className="text-[10px] tracking-[0.16em] text-white/45">SAVINGS</p>
+                  <p className="text-2xl text-[var(--teal)]">33%</p>
+                </div>
+              </div>
+              <div className="space-y-2">
+                {[82, 46, 34, 21, 11].map((w, i) => (
+                  <div key={String(i)} className="flex items-center gap-2 text-xs">
+                    <span className="w-16 text-white/55">Line {i + 1}</span>
+                    <div className="h-1.5 flex-1 rounded-full bg-[#2a2a2a]">
+                      <div
+                        className="h-full rounded-full"
+                        style={{
+                          width: `${w}%`,
+                          background: i < 2 ? "#f08080" : i < 4 ? "#80c8f0" : "#c8f080"
+                        }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </article>
+
+            <article data-reveal className="reveal glass-card rounded-2xl p-5">
+              <div className="mb-4 flex items-center justify-between border-b border-white/10 pb-3">
+                <p className="text-sm font-semibold">Accounts</p>
+                <span className="text-xs text-[var(--teal)]">6 connected</span>
+              </div>
+              <div className="space-y-2 text-sm">
+                {[
+                  ["Chase Checking", "$4,210", "text-[var(--ok)]"],
+                  ["Marcus HYSA", "$11,640", "text-[var(--ok)]"],
+                  ["Fidelity 401k", "$18,200", "text-[var(--ok)]"],
+                  ["Capital One Quicksilver", "-$2,140", "text-[var(--danger)]"]
+                ].map(([name, amount, color]) => (
+                  <div key={String(name)} className="flex items-center justify-between rounded-lg border border-white/10 bg-[#121212] px-3 py-2">
+                    <span className="text-white/78">{name}</span>
+                    <span className={String(color)}>{amount}</span>
+                  </div>
+                ))}
+              </div>
+            </article>
+
+            <article data-reveal className="reveal glass-card rounded-2xl p-5">
+              <div className="mb-4 flex items-center justify-between border-b border-white/10 pb-3">
+                <p className="text-sm font-semibold">Debt Payoff</p>
+                <span className="text-xs text-[var(--danger)]">Avalanche strategy</span>
+              </div>
+              <div className="space-y-4">
+                {[
+                  ["Capital One Quicksilver", "APR 24.99%", "62%", "#f08080"],
+                  ["Citi Double Cash", "APR 21.49%", "55%", "#f08080"],
+                  ["Car Loan - Honda Civic", "APR 6.9%", "34%", "#80c8f0"]
+                ].map(([name, sub, width, color]) => (
+                  <div key={String(name)}>
+                    <div className="mb-1 flex items-center justify-between text-xs">
+                      <span className="text-white/78">{name}</span>
+                      <span className="text-white/45">{sub}</span>
+                    </div>
+                    <div className="h-1.5 rounded-full bg-[#2a2a2a]">
+                      <div className="h-full rounded-full" style={{ width: String(width), background: String(color) }} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </article>
+
+            <article data-reveal className="reveal glass-card rounded-2xl p-5">
+              <div className="mb-4 flex items-center justify-between border-b border-white/10 pb-3">
+                <p className="text-sm font-semibold">Home</p>
+                <span className="text-xs text-[var(--amber)]">Property overview</span>
+              </div>
+              <div className="mb-3 grid grid-cols-2 gap-2">
+                <div className="rounded-lg border border-white/10 bg-[#121212] p-2">
+                  <p className="text-[10px] tracking-[0.16em] text-white/45">HOME VALUE</p>
+                  <p className="text-2xl text-[var(--amber)]">$485,000</p>
+                </div>
+                <div className="rounded-lg border border-white/10 bg-[#121212] p-2">
+                  <p className="text-[10px] tracking-[0.16em] text-white/45">EQUITY</p>
+                  <p className="text-2xl text-[var(--teal)]">$186,500</p>
+                </div>
+              </div>
+              <div className="space-y-2 text-xs text-white/72">
+                <div className="rounded-lg border border-white/10 bg-[#121212] px-3 py-2">
+                  Monthly housing cost: <span className="text-[var(--amber)]">$2,919</span>
+                </div>
+                <div className="rounded-lg border border-white/10 bg-[#121212] px-3 py-2">
+                  Insurance renewal: <span className="text-white">May 2026</span>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+
         <section id="features" className="mx-auto w-full max-w-7xl px-6 py-24 md:px-10">
           <div data-reveal className="reveal mb-10">
             <p className="mb-3 text-xs uppercase tracking-[0.2em] text-white/55">Features</p>
@@ -437,7 +559,7 @@ export default function Home() {
       <footer className="border-t border-white/12 bg-[#0a0a0a]">
         <div className="mx-auto grid w-full max-w-7xl gap-8 px-6 py-10 md:grid-cols-[1fr_auto] md:px-10">
           <div>
-            <p className="logo-word text-4xl italic leading-none text-[var(--text)]">
+            <p className="logo-word text-4xl leading-none text-[var(--text)]">
               tame<span className="text-[var(--amber)]">.</span>
             </p>
             <p className="mt-2 text-sm text-white/60">Life OS for calm, aligned execution.</p>
@@ -457,3 +579,4 @@ export default function Home() {
     </div>
   );
 }
+
