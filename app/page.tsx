@@ -199,10 +199,10 @@ export default function Home() {
       </header>
 
       <main>
-        <section className="relative mx-auto grid w-full max-w-7xl gap-10 px-6 pb-20 pt-14 md:grid-cols-[1.02fr_1fr] md:px-10 md:pt-20">
+        <section className="relative mx-auto grid w-full max-w-7xl gap-14 px-6 pb-20 pt-14 md:grid-cols-[0.95fr_1.05fr] md:px-10 md:pt-20">
           <div data-reveal className="reveal">
             <p className="mb-5 text-xs uppercase tracking-[0.2em] text-white/50">Life Operating System</p>
-            <h1 className="display-font text-5xl leading-[0.95] tracking-tight md:text-8xl">
+            <h1 className="display-font max-w-2xl text-5xl leading-[0.95] tracking-tight md:text-7xl">
               Money plus life admin.
               <br />
               One clear system.
@@ -240,16 +240,11 @@ export default function Home() {
                 <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
                   <div>
                     <p className="text-sm font-medium">Dashboard</p>
-                    <p className="text-xs text-white/45">Monday, March 9 · Demo mode · All nominal</p>
+                    <p className="text-xs text-white/45">Monday, March 9 · 3 accounts connected · All nominal</p>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <span className="rounded-full border border-[#22422d] bg-[#102017] px-3 py-1 text-xs text-[var(--ok)]">
-                      Live sync
-                    </span>
-                    <span className="rounded-full border border-[#4c3f15] bg-[#231f12] px-3 py-1 text-xs text-[var(--amber)]">
-                      Demo
-                    </span>
-                  </div>
+                  <span className="rounded-full border border-[#22422d] bg-[#102017] px-3 py-1 text-xs text-[var(--ok)]">
+                    Live sync
+                  </span>
                 </div>
 
                 <div className="grid gap-2 border-b border-white/10 p-3 sm:grid-cols-2 lg:grid-cols-5">
@@ -267,83 +262,24 @@ export default function Home() {
                   ))}
                 </div>
 
-                <div className="grid gap-3 p-3 lg:grid-cols-[185px_1fr_230px]">
-                  <aside className="hidden rounded-lg border border-white/10 bg-[#111112] p-2.5 lg:block">
-                    <p className="mb-2 px-1 text-[10px] tracking-[0.18em] text-white/38">OVERVIEW</p>
-                    <div className="space-y-1 text-xs">
-                      <div className="flex items-center justify-between rounded-md border border-white/10 bg-[#171718] px-2 py-1.5 text-white">
-                        <span>Dashboard</span>
-                      </div>
-                    </div>
-
-                    <p className="mb-2 mt-4 px-1 text-[10px] tracking-[0.18em] text-white/38">MONEY</p>
-                    <div className="space-y-1 text-xs">
-                      {[
-                        ["Finances", "2"],
-                        ["Accounts", ""],
-                        ["Expenses", "1"],
-                        ["Debt Payoff", ""],
-                        ["Goals and Savings", ""],
-                        ["Budget", ""]
-                      ].map(([name, badge]) => (
-                        <div key={String(name)} className="flex items-center justify-between px-2 py-1 text-white/68">
-                          <span>{name}</span>
-                          {badge ? (
-                            <span className="rounded-full bg-[#351717] px-1.5 py-0.5 text-[10px] text-[#ff6666]">
-                              {badge}
-                            </span>
-                          ) : null}
-                        </div>
-                      ))}
-                    </div>
-
-                    <p className="mb-2 mt-4 px-1 text-[10px] tracking-[0.18em] text-white/38">LIFE</p>
-                    <div className="space-y-1 text-xs">
-                      {[
-                        ["Documents", "3"],
-                        ["Health and Benefits", "$340"],
-                        ["Home", "1"],
-                        ["Vehicle", "1"],
-                        ["Life Calendar", ""]
-                      ].map(([name, badge]) => (
-                        <div key={String(name)} className="flex items-center justify-between px-2 py-1 text-white/68">
-                          <span>{name}</span>
-                          {badge ? (
-                            <span className="rounded-full bg-[#351717] px-1.5 py-0.5 text-[10px] text-[#ff6666]">
-                              {badge}
-                            </span>
-                          ) : null}
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="mt-4 rounded-lg border border-white/10 bg-[#151516] p-2">
-                      <p className="text-[10px] tracking-[0.16em] text-white/40">PLAN</p>
-                      <p className="mt-1 text-lg text-[var(--amber)]">Free</p>
-                      <p className="text-[11px] text-white/42">5 of 8 features active</p>
-                      <button className="mt-2 w-full rounded-md bg-[var(--amber)] px-2 py-1.5 text-[11px] font-semibold text-[#101010]">
-                        Upgrade to Pro
-                      </button>
-                    </div>
-                  </aside>
-
+                <div className="grid gap-3 p-3 md:grid-cols-[minmax(0,1fr)_240px]">
                   <div className="space-y-3">
                     <div className="rounded-lg border border-white/10 bg-[#111112]">
                       <div className="flex items-center justify-between border-b border-white/10 px-3 py-2">
                         <p className="text-xs font-semibold text-white">Income Waterfall - March</p>
-                        <span className="text-xs text-[var(--amber)]">Full view {"->"}</span>
+                        <span className="text-xs text-[var(--amber)]">Full view</span>
                       </div>
                       <div className="space-y-1.5 px-3 py-3 text-xs">
                         {[
                           ["Rent", 71, "-$1,450"],
                           ["Car Loan", 35, "-$310"],
-                          ["Insurance", 23, "-$180"],
+                          ["Car Insurance", 24, "-$180"],
                           ["Utilities", 18, "-$158"],
                           ["Food and Dining", 26, "-$414"],
                           ["Transport", 14, "-$282"],
                           ["Subscriptions", 11, "-$130"]
                         ].map(([label, width, value], i) => (
-                          <div key={String(label)} className="grid grid-cols-[112px_1fr_60px] items-center gap-2">
+                          <div key={String(label)} className="grid grid-cols-[118px_1fr_60px] items-center gap-2">
                             <span className="text-white/58">{label}</span>
                             <div className="h-1.5 rounded-full bg-[#2a2a2a]">
                               <div
@@ -358,24 +294,19 @@ export default function Home() {
                           </div>
                         ))}
                       </div>
-                      <div className="flex items-center justify-between border-t border-white/10 px-3 py-2 text-xs">
-                        <span className="text-white/65">Remaining</span>
-                        <span className="text-[var(--amber)]">$1,715</span>
-                      </div>
                     </div>
 
                     <div className="rounded-lg border border-white/10 bg-[#111112]">
                       <div className="flex items-center justify-between border-b border-white/10 px-3 py-2">
                         <p className="text-xs font-semibold text-white">Upcoming - 30 Days</p>
-                        <span className="text-xs text-[var(--amber)]">Calendar {"->"}</span>
+                        <span className="text-xs text-[var(--amber)]">Calendar</span>
                       </div>
                       <div className="space-y-2 px-3 py-3 text-xs">
                         {[
                           ["Mar 8", "Eversource Electric", "$158.00", "Urgent", "text-[var(--danger)]"],
                           ["Mar 12", "Comcast Xfinity", "$89.99", "Auto", "text-[var(--ok)]"],
                           ["Mar 15", "Progressive Insurance", "$180.00", "Auto", "text-white/70"],
-                          ["Mar 22", "Driver's License Renewal", "-", "18 days", "text-[#f5c971]"],
-                          ["Mar 25", "FSA Balance Deadline", "$340", "Benefit", "text-[var(--teal)]"]
+                          ["Mar 22", "Driver's License Renewal", "-", "18 days", "text-[#f5c971]"]
                         ].map(([date, item, amount, tag, amountColor]) => (
                           <div key={String(item)} className="grid grid-cols-[42px_1fr_auto_auto] items-center gap-2">
                             <span className="text-white/40">{date}</span>
@@ -390,11 +321,11 @@ export default function Home() {
                     </div>
                   </div>
 
-                  <div className="space-y-3">
+                  <aside className="space-y-3">
                     <div className="rounded-lg border border-white/10 bg-[#111112]">
                       <div className="flex items-center justify-between border-b border-white/10 px-3 py-2">
                         <p className="text-xs font-semibold">Net Worth</p>
-                        <span className="text-xs text-[var(--amber)]">-</span>
+                        <span className="text-xs text-[var(--amber)]">All accounts</span>
                       </div>
                       <div className="px-3 py-3">
                         <p className="text-4xl leading-none text-[var(--amber)]">$18,430</p>
@@ -416,15 +347,17 @@ export default function Home() {
                     </div>
 
                     <div className="rounded-lg border border-white/10 bg-[#111112] p-3">
-                      <p className="mb-2 text-xs font-semibold text-white">Quick Actions</p>
-                      <button className="mb-2 w-full rounded-md bg-[var(--amber)] px-2 py-2 text-xs font-semibold text-[#101010]">
-                        Pay Eversource
-                      </button>
-                      <button className="w-full rounded-md border border-white/12 px-2 py-2 text-xs text-white/70">
-                        Renew License
-                      </button>
+                      <p className="mb-2 text-xs font-semibold text-white">Savings Rate</p>
+                      <p className="text-4xl leading-none text-[var(--teal)]">33%</p>
+                      <div className="mt-3 h-1.5 rounded-full bg-[#2a2a2a]">
+                        <div className="h-full w-[66%] rounded-full bg-gradient-to-r from-[var(--teal)] to-[var(--amber)]" />
+                      </div>
+                      <div className="mt-3 grid grid-cols-2 gap-y-1 text-[11px] text-white/60">
+                        <span>Feb</span><span className="text-right">29%</span>
+                        <span>Mar</span><span className="text-right text-[var(--amber)]">33%</span>
+                      </div>
                     </div>
-                  </div>
+                  </aside>
                 </div>
               </div>
             </div>
